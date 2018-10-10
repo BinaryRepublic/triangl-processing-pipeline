@@ -13,7 +13,7 @@ class InputOperationDto<T>(
 
 enum class InputOperationTypeDto {
 
-    CREATE_CUSTOMER,
+    APPLY_CUSTOMER,
 
-    CREATE_TRACKING_POINT
+    APPLY_TRACKING_POINT
 }
