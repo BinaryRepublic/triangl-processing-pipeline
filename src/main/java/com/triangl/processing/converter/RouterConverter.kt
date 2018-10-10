@@ -30,7 +30,7 @@ class RouterConverter {
 
         return OutputOperationDto(
             type = operation,
-            entity = OutputOperationEntityDto.COORDINATE,
+            entity = OutputOperationEntityDto.ROUTER,
             data = routerInputs.map { convert(it, mapId, it.location!!.id!!) },
             parents = routerInputs.filter { it.location != null }.map { routerInput ->
                 coordinateConverter.apply(listOf(routerInput.location!!))
