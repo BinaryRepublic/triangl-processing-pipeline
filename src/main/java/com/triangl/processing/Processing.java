@@ -3,7 +3,6 @@ package com.triangl.processing;
 import com.triangl.processing.converter.MainConverter;
 import com.triangl.processing.dto.InputOperationTypeDto;
 import com.triangl.processing.dto.OutputOperationDto;
-import com.triangl.processing.inputEntity.CustomerInput;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.sdk.Pipeline;
@@ -12,6 +11,9 @@ import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.IOException;
 
 
 // source https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
@@ -48,9 +50,14 @@ public class Processing {
                     @ProcessElement
                     public void processElement(ProcessContext c) {
 
+                        ObjectMapper mapper = new ObjectMapper();
+
                         OutputOperationDto result = c.element();
-                        CustomerInput customerInput = (CustomerInput) result.getData();
-                        System.out.printf(customerInput.getName());
+                        try {
+                            System.out.printf(mapper.writeValueAsString(result));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }));
 

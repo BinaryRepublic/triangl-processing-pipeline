@@ -2,24 +2,26 @@ package com.triangl.processing.dto
 
 import java.io.Serializable
 
-class OutputOperationDto<T: Serializable>(
+data class OutputOperationDto<T: Serializable>(
 
     var type: OutputOperationTypeDto,
 
     var entity: OutputOperationEntityDto,
 
-    var data: T
+    var data: List<T>,
+
+    var children: List<OutputOperationDto<*>> = emptyList(),
+
+    var parents: List<OutputOperationDto<*>> = emptyList()
 
 ) : Serializable
 
 
 enum class OutputOperationTypeDto {
 
-    CREATE,
+    APPLY,
 
-    UPDATE,
-
-    UPDATE_AND_DELETE,
+    APPLY_AND_CLEAR,
 
     DELETE
 }
