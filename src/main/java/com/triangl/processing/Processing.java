@@ -1,6 +1,7 @@
 package com.triangl.processing;
 
-import com.triangl.processing.converter.MainConverter;
+import com.triangl.processing.controller.ConverterController;
+import com.triangl.processing.controller.RepositoryController;
 import com.triangl.processing.dto.InputOperationTypeDto;
 import com.triangl.processing.dto.OutputOperationDto;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
@@ -12,8 +13,6 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import java.io.IOException;
 
 
 // source https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
@@ -39,9 +38,10 @@ public class Processing {
                         String inputOperationTypeString = message.getAttribute("operation");
                         InputOperationTypeDto inputOperationType = InputOperationTypeDto.valueOf(inputOperationTypeString);
                         String jsonPayload = new String(message.getPayload()).replace("\n", "");
+                        String jsonAdditional = message.getAttribute("additional");
 
-                        MainConverter converter = new MainConverter();
-                        OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload);
+                        ConverterController converter = new ConverterController();
+                        OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload, jsonAdditional);
 
                         c.output(outputOperation);
                     }
@@ -53,11 +53,14 @@ public class Processing {
                         ObjectMapper mapper = new ObjectMapper();
 
                         OutputOperationDto result = c.element();
-                        try {
-                            System.out.printf(mapper.writeValueAsString(result));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            System.out.printf(mapper.writeValueAsString(result));
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+
+                        RepositoryController repository = new RepositoryController(result);
+                        repository.applyOutputOperations();
                     }
                 }));
 

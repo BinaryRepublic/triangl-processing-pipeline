@@ -24,7 +24,7 @@ class TrackingPointConverter {
 
         return OutputOperationDto(
             type = OutputOperationTypeDto.APPLY,
-            entity = OutputOperationEntityDto.COORDINATE,
+            entity = OutputOperationEntityDto.TRACKING_POINT,
             data = trackingPointInputs.map { convert(it, trackedDeviceId, it.location!!.id!!) },
             parents = trackingPointInputs.filter { it.location != null }.map { routerInput ->
                 coordinateConverter.apply(listOf(routerInput.location!!))
