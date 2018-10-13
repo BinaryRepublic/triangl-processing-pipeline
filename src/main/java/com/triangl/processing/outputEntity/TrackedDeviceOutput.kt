@@ -1,14 +1,31 @@
 package com.triangl.processing.outputEntity
 
-import java.io.Serializable
+import com.triangl.processing.repository.RepositoryEntity
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.Entity
 
-class TrackedDeviceOutput: Serializable {
+@Entity
+class TrackedDeviceOutput: RepositoryEntity {
 
-    lateinit var id: String
+    @Column(name = "id")
+    override lateinit var id: String
 
+    @Column(name = "mapId")
     lateinit var mapId: String
 
-    var createdAt: String? = null
+    @Column(name = "createdAt")
+    var createdAt: Date? = null
 
-    var lastUpdatedAt: String? = null
+    @Column(name = "lastUpdatedAt")
+    var lastUpdatedAt: Date? = null
+
+    override fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "id" to id,
+            "mapId" to mapId,
+            "createdAt" to createdAt,
+            "lastUpdatedAt" to lastUpdatedAt
+        )
+    }
 }

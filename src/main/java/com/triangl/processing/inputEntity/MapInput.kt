@@ -1,5 +1,7 @@
 package com.triangl.processing.inputEntity
 
+import java.util.*
+
 class MapInput {
 
     var id: String? = null
@@ -12,7 +14,7 @@ class MapInput {
 
     var router: List<RouterInput>? = null
 
-    var createdAt: String? = null
+    var createdAt: Date? = null
 
-    var lastUpdatedAt: String? = null
+    var lastUpdatedAt: Date? = null
 }

@@ -1,18 +1,33 @@
 package com.triangl.processing.outputEntity
 
-import java.io.Serializable
+import com.triangl.processing.repository.RepositoryEntity
+import java.util.*
+import javax.persistence.Column
 
-class RouterOutput: Serializable {
+class RouterOutput: RepositoryEntity {
 
-    lateinit var id: String
+    @Column(name = "id")
+    override lateinit var id: String
 
+    @Column(name = "coordinateId")
     lateinit var coordinateId: String
 
+    @Column(name = "mapId")
     lateinit var mapId: String
 
-    var location: CoordinateOutput? = null
+    @Column(name = "createdAt")
+    var createdAt: Date? = null
 
-    var lastUpdatedAt: String? = null
+    @Column(name = "lastUpdatedAt")
+    var lastUpdatedAt: Date? = null
 
-    var createdAt: String? = null
+    override fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "id" to id,
+            "coordinateId" to coordinateId,
+            "mapId" to mapId,
+            "createdAt" to createdAt,
+            "lastUpdatedAt" to lastUpdatedAt
+        )
+    }
 }

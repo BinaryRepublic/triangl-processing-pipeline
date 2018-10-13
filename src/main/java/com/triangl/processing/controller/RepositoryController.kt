@@ -3,10 +3,13 @@ package com.triangl.processing.controller
 import com.triangl.processing.dto.OutputOperationDto
 import com.triangl.processing.dto.OutputOperationEntityDto
 import com.triangl.processing.dto.OutputOperationTypeDto
-import com.triangl.processing.repository.*
+import com.triangl.processing.outputEntity.*
+import com.triangl.processing.repository.RepositoryConnector
+import com.triangl.processing.repository.RepositoryExecutor
 
 class RepositoryController (
-    private val outputOperation: OutputOperationDto<*>
+    private val outputOperation: OutputOperationDto<*>,
+    private val dbConnector: RepositoryConnector
 ) {
 
     fun applyOutputOperations () {
@@ -33,7 +36,7 @@ class RepositoryController (
     private fun runParents () {
         if (outputOperation.parents.isNotEmpty()) {
             outputOperation.parents.forEach {
-                RepositoryController(it).applyOutputOperations()
+                RepositoryController(it, dbConnector).applyOutputOperations()
             }
         }
     }
@@ -41,7 +44,7 @@ class RepositoryController (
     private fun runChildren () {
         if (outputOperation.children.isNotEmpty()) {
             outputOperation.children.forEach {
-                RepositoryController(it).applyOutputOperations()
+                RepositoryController(it, dbConnector).applyOutputOperations()
             }
         }
     }
@@ -50,16 +53,17 @@ class RepositoryController (
         runRepositoryOperation(outputOperation)
     }
 
-    private fun runRepositoryOperation (outputOperation: OutputOperationDto<*>) {
-        val repository = when (outputOperation.entity) {
-            OutputOperationEntityDto.CUSTOMER -> RepositoryHandler(CustomerRepository())
-            OutputOperationEntityDto.MAP -> RepositoryHandler(MapRepository())
-            OutputOperationEntityDto.ROUTER -> RepositoryHandler(RouterRepository())
-            OutputOperationEntityDto.COORDINATE -> RepositoryHandler(CoordinateRepository())
-            OutputOperationEntityDto.TRACKED_DEVICE -> RepositoryHandler(TrackedDeviceRepository())
-            OutputOperationEntityDto.TRACKING_POINT -> RepositoryHandler(TrackingPointRepository())
-        }
+    private fun runRepositoryOperation (op: OutputOperationDto<*>) {
 
-        repository.run(outputOperation)
+        val repoExecutor = RepositoryExecutor(dbConnector)
+
+        when (outputOperation.entity) {
+            OutputOperationEntityDto.CUSTOMER -> repoExecutor.run<CustomerOutput>(op, "Customer")
+            OutputOperationEntityDto.MAP -> repoExecutor.run<MapOutput>(op, "Map")
+            OutputOperationEntityDto.ROUTER -> repoExecutor.run<RouterOutput>(op, "Router")
+            OutputOperationEntityDto.COORDINATE -> repoExecutor.run<CoordinateOutput>(op, "Coordinate")
+            OutputOperationEntityDto.TRACKED_DEVICE -> repoExecutor.run<TrackedDeviceOutput>(op, "TrackedDevice")
+            OutputOperationEntityDto.TRACKING_POINT -> repoExecutor.run<TrackingPointOutput>(op, "TrackingPoint")
+        }
     }
 }

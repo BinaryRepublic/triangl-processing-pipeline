@@ -16,8 +16,8 @@ class MapConverter {
             this.customerId = customerId
             name = mapInput.name
             svgPath = mapInput.svgPath
-            width = mapInput.size?.x?.toString()
-            height = mapInput.size?.y?.toString()
+            width = mapInput.size?.x
+            height = mapInput.size?.y
             createdAt = mapInput.createdAt
             lastUpdatedAt = mapInput.lastUpdatedAt
         }

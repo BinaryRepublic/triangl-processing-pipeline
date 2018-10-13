@@ -4,6 +4,7 @@ import com.triangl.processing.controller.ConverterController;
 import com.triangl.processing.controller.RepositoryController;
 import com.triangl.processing.dto.InputOperationTypeDto;
 import com.triangl.processing.dto.OutputOperationDto;
+import com.triangl.processing.repository.RepositoryConnector;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.sdk.Pipeline;
@@ -20,6 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class Processing {
 
     public static void main(String[] args) {
+
         DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
         options.setProject("triangl-215714");
         options.setRunner(DirectRunner.class);
@@ -59,7 +61,7 @@ public class Processing {
 //                            e.printStackTrace();
 //                        }
 
-                        RepositoryController repository = new RepositoryController(result);
+                        RepositoryController repository = new RepositoryController(result, new RepositoryConnector());
                         repository.applyOutputOperations();
                     }
                 }));

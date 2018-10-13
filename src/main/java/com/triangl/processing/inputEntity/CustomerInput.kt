@@ -1,6 +1,7 @@
 package com.triangl.processing.inputEntity
 
 import java.io.Serializable
+import java.util.*
 
 class CustomerInput : Serializable {
 
@@ -10,9 +11,7 @@ class CustomerInput : Serializable {
 
     var maps: List<MapInput>? = null
 
-    var deleted: Boolean? = null
+    var createdAt: Date? = null
 
-    var lastUpdatedAt: String? = null
-
-    var createdAt: String? = null
+    var lastUpdatedAt: Date? = null
 }
