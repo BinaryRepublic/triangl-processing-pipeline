@@ -1,22 +1,47 @@
 package com.triangl.processing.outputEntity
 
-import java.io.Serializable
+import com.triangl.processing.repository.RepositoryEntity
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.Entity
 
-class MapOutput: Serializable {
+@Entity
+class MapOutput: RepositoryEntity {
 
-    lateinit var id: String
+    @Column(name = "id")
+    override lateinit var id: String
 
+    @Column(name = "customerId")
     lateinit var customerId: String
 
+    @Column(name = "name")
     var name: String? = null
 
+    @Column(name = "svgPath")
     var svgPath: String? = null
 
-    var width: String? = null
+    @Column(name = "width")
+    var width: Float? = null
 
-    var height: String? = null
+    @Column(name = "height")
+    var height: Float? = null
 
-    var createdAt: String? = null
+    @Column(name = "createdAt")
+    var createdAt: Date? = null
 
-    var lastUpdatedAt: String? = null
+    @Column(name = "lastUpdatedAt")
+    var lastUpdatedAt: Date? = null
+
+    override fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "id" to id,
+            "customerId" to customerId,
+            "name" to name,
+            "svgPath" to svgPath,
+            "width" to width,
+            "height" to height,
+            "createdAt" to createdAt,
+            "lastUpdatedAt" to lastUpdatedAt
+        )
+    }
 }
