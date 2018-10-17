@@ -17,13 +17,13 @@ import org.apache.beam.sdk.transforms.ParDo;
 
 // based on pubsub example: https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
 
-public class Processing {
+public class ProcessingApplication {
 
-    public static void main(String[] args) {
+    public static void main(String [] args) {
 
         DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
         options.setProject("triangl-215714");
-        options.setRunner(DirectRunner.class);
+        options.setRunner(DirectRunner.class); // for Dataflow use DataflowRunner.class
         options.setRegion("europe-west1");
         options.setDiskSizeGb(10);
         options.setWorkerMachineType("n1-standard-1");
