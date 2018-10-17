@@ -2,7 +2,7 @@ package com.triangl.processing.inputEntity
 
 import java.util.*
 
-class CoordinateInput {
+class CoordinateInput : InputEntity() {
 
     var id: String? = null
 

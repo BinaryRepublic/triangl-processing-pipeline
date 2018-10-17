@@ -13,10 +13,9 @@ import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
-import org.codehaus.jackson.map.ObjectMapper;
 
 
-// source https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
+// based on pubsub example: https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
 
 public class Processing {
 
@@ -25,7 +24,9 @@ public class Processing {
         DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
         options.setProject("triangl-215714");
         options.setRunner(DirectRunner.class);
-        options.setStreaming(true);
+        options.setRegion("europe-west1");
+        options.setDiskSizeGb(10);
+        options.setWorkerMachineType("n1-standard-1");
 
         String TOPIC_NAME = "projects/triangl-215714/topics/test";
 
@@ -52,14 +53,7 @@ public class Processing {
                     @ProcessElement
                     public void processElement(ProcessContext c) {
 
-                        ObjectMapper mapper = new ObjectMapper();
-
                         OutputOperationDto result = c.element();
-//                        try {
-//                            System.out.printf(mapper.writeValueAsString(result));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
 
                         RepositoryController repository = new RepositoryController(result, new RepositoryConnector());
                         repository.applyOutputOperations();

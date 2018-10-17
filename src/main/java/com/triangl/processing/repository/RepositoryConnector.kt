@@ -11,12 +11,12 @@ class RepositoryConnector {
     var connection: Connection
 
     init {
-        val instanceConnectionName = "triangl-215714:europe-west3:test"
+        val instanceConnectionName = "triangl-215714:europe-west3:analyzing"
 
-        val databaseName = "serving-db"
+        val databaseName = "servingDB"
 
         val username = "root"
-        val password = ""
+        val password = "root"
 
         //[START doc-example]
         val jdbcUrl = String.format(

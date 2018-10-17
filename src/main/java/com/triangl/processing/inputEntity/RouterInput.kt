@@ -2,7 +2,7 @@ package com.triangl.processing.inputEntity
 
 import java.util.*
 
-class RouterInput {
+class RouterInput : InputEntity() {
 
     var id: String? = null
 

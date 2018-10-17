@@ -15,6 +15,7 @@ class TrackingPointConverter {
             id = trackingPointInput.id!!
             this.trackedDeviceId = trackedDeviceId
             this.coordinateId = coordinateId
+            timestamp = trackingPointInput.timestamp
             createdAt = trackingPointInput.createdAt
             lastUpdatedAt = trackingPointInput.lastUpdatedAt
         }
