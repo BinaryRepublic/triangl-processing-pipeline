@@ -1,5 +1,5 @@
 CREATE TABLE Customer (
-    id varchar(32) not null,
+    id varchar(36) not null,
     name text,
     createdAt timestamp,
     lastUpdatedAt timestamp,
@@ -7,8 +7,8 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Map (
-    id varchar(32) not null,
-    customerId varchar(32) not null,
+    id varchar(36) not null,
+    customerId varchar(36) not null,
     name text,
     svgPath text,
     width float,
@@ -20,7 +20,7 @@ CREATE TABLE Map (
 );
 
 CREATE TABLE Coordinate (
-    id varchar(32) not null,
+    id varchar(36) not null,
     x float,
     y float,
     createdAt timestamp,
@@ -29,9 +29,9 @@ CREATE TABLE Coordinate (
 );
 
 CREATE TABLE Router (
-    id varchar(32) not null,
-    coordinateId varchar(32) not null,
-    mapId varchar(32) not null,
+    id varchar(36) not null,
+    coordinateId varchar(36) not null,
+    mapId varchar(36) not null,
     createdAt timestamp,
     lastUpdatedAt timestamp,
     PRIMARY KEY (id),
@@ -40,8 +40,8 @@ CREATE TABLE Router (
 );
 
 CREATE TABLE TrackedDevice (
-    id varchar(32) not null,
-    mapId varchar(32) not null,
+    id varchar(36) not null,
+    mapId varchar(36) not null,
     createdAt timestamp,
     lastUpdatedAt timestamp,
     PRIMARY KEY (id),
@@ -49,9 +49,10 @@ CREATE TABLE TrackedDevice (
 );
 
 CREATE TABLE TrackingPoint (
-    id varchar(32) not null,
-    trackedDeviceId varchar(32) not null,
-    coordinateId varchar(32) not null,
+    id varchar(36) not null,
+    trackedDeviceId varchar(36) not null,
+    coordinateId varchar(36) not null,
+    timestamp timestamp,
     createdAt timestamp,
     lastUpdatedAt timestamp,
     PRIMARY KEY (id),

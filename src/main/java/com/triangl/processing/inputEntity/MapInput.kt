@@ -2,7 +2,7 @@ package com.triangl.processing.inputEntity
 
 import java.util.*
 
-class MapInput {
+class MapInput : InputEntity() {
 
     var id: String? = null
 

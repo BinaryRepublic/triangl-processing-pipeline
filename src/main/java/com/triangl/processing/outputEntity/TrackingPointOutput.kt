@@ -17,6 +17,9 @@ class TrackingPointOutput: RepositoryEntity {
     @Column(name = "coordinateId")
     lateinit var coordinateId: String
 
+    @Column(name = "timestamp")
+    var timestamp: Date? = null
+
     @Column(name = "createdAt")
     var createdAt: Date? = null
 
@@ -28,6 +31,7 @@ class TrackingPointOutput: RepositoryEntity {
             "id" to id,
             "trackedDeviceId" to trackedDeviceId,
             "coordinateId" to coordinateId,
+            "timestamp" to timestamp,
             "createdAt" to createdAt,
             "lastUpdatedAt" to lastUpdatedAt
         )

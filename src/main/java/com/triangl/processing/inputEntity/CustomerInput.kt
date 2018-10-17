@@ -1,9 +1,8 @@
 package com.triangl.processing.inputEntity
 
-import java.io.Serializable
 import java.util.*
 
-class CustomerInput : Serializable {
+class CustomerInput : InputEntity() {
 
     var id: String? = null
 
