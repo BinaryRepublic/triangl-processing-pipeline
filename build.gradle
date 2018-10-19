@@ -51,7 +51,7 @@ compileTestKotlin {
 }
 
 flyway {
-    url = 'jdbc:mysql://google/servingDB?cloudSqlInstance=triangl-215714:europe-west3:analyzing&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false'
+    url = 'jdbc:mysql://google/serving-prod?cloudSqlInstance=triangl-215714:europe-west3:analyzing&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false'
     user = 'root'
     password = 'root'
 }

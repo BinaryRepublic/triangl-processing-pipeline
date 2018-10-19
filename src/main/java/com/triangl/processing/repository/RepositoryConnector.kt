@@ -11,21 +11,8 @@ class RepositoryConnector {
     var connection: Connection
 
     init {
-        val instanceConnectionName = "triangl-215714:europe-west3:analyzing"
-
-        val databaseName = "servingDB"
-
-        val username = "root"
-        val password = "root"
-
-        //[START doc-example]
-        val jdbcUrl = String.format(
-            "jdbc:mysql://google/%s?cloudSqlInstance=%s" + "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false",
-            databaseName,
-            instanceConnectionName
-        )
-
-        connection = DriverManager.getConnection(jdbcUrl, username, password)
+        val env = System.getenv()
+        connection = DriverManager.getConnection(env["JDBC_URL"], env["DB_USER"], env["DB_PASSWORD"])
     }
 
     inline fun <reified T>get(query: String) =
