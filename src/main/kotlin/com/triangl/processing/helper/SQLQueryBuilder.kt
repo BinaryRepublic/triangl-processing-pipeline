@@ -7,9 +7,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SQLQueryBuilder (
-    private val table: String
-) {
+class SQLQueryBuilder {
+
+    var table: String? = null
 
     fun select(id: String) =
         "SELECT * FROM $table WHERE id=\"$id\""
@@ -63,6 +63,7 @@ class SQLQueryBuilder (
             is Date -> {
                 val timestamp = java.sql.Timestamp(value.time)
                 val sdf = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
+                sdf.timeZone = TimeZone.getTimeZone("UTC")
                 return "\"${sdf.format(timestamp)}\""
             }
             else -> value

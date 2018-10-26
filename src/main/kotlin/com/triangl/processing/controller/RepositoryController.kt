@@ -3,6 +3,7 @@ package com.triangl.processing.controller
 import com.triangl.processing.dto.OutputOperationDto
 import com.triangl.processing.dto.OutputOperationEntityDto
 import com.triangl.processing.dto.OutputOperationTypeDto
+import com.triangl.processing.helper.SQLQueryBuilder
 import com.triangl.processing.outputEntity.*
 import com.triangl.processing.repository.RepositoryConnector
 import com.triangl.processing.repository.RepositoryExecutor
@@ -24,7 +25,7 @@ class RepositoryController (
             try {
                 val dbConnection = DriverManager.getConnection(env["JDBC_URL"], env["DB_USER"], env["DB_PASSWORD"])
                 val repositoryConnector = RepositoryConnector(dbConnection)
-                this.repositoryExecutor = RepositoryExecutor(repositoryConnector)
+                this.repositoryExecutor = RepositoryExecutor(repositoryConnector, SQLQueryBuilder())
             } catch (e: SQLException) {
                 e.printStackTrace()
             }
@@ -32,12 +33,12 @@ class RepositoryController (
     }
 
     fun applyOutputOperations () {
-        if (outputOperation == OutputOperationTypeDto.APPLY ||
-            outputOperation == OutputOperationTypeDto.APPLY_AND_CLEAR) {
+        if (outputOperation.type == OutputOperationTypeDto.APPLY ||
+            outputOperation.type == OutputOperationTypeDto.APPLY_AND_CLEAR) {
             runParents()
             runSelf()
             runChildren()
-        } else if (outputOperation == OutputOperationTypeDto.DELETE) {
+        } else if (outputOperation.type == OutputOperationTypeDto.DELETE) {
             runChildren()
             runSelf()
             runParents()
