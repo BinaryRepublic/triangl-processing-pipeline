@@ -57,8 +57,8 @@ public class ProcessingApplication {
                     public void processElement(ProcessContext c) {
 
                         OutputOperationDto result = c.element();
-                        RepositoryController repository = new RepositoryController(result);
-                        repository.applyOutputOperations();
+                        RepositoryController repositoryController = new RepositoryController(result);
+                        repositoryController.applyOutputOperations();
                     }
                 }));
 
