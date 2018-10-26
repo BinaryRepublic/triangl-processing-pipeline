@@ -4,19 +4,15 @@ import com.triangl.processing.controller.ConverterController;
 import com.triangl.processing.controller.RepositoryController;
 import com.triangl.processing.dto.InputOperationTypeDto;
 import com.triangl.processing.dto.OutputOperationDto;
-import com.triangl.processing.repository.RepositoryConnector;
-import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
+import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -31,9 +27,8 @@ public class ProcessingApplication {
         String projectId = env.get("PROJECT_ID");
         String pubsubTopic = env.get("PUBSUB_TOPIC");
 
-        DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
+        PipelineOptions options = PipelineOptionsFactory.as(PipelineOptions.class);
         options.setRunner(DirectRunner.class);
-        options.setProject(projectId);
 
         String TOPIC_NAME = MessageFormat.format("projects/{0}/topics/{1}", projectId, pubsubTopic);
 
@@ -61,14 +56,8 @@ public class ProcessingApplication {
                     public void processElement(ProcessContext c) {
 
                         OutputOperationDto result = c.element();
-
-                        try {
-                            Connection dbConnection = DriverManager.getConnection(env.get("JDBC_URL"), env.get("DB_USER"), env.get("DB_PASSWORD"));
-                            RepositoryController repository = new RepositoryController(result, new RepositoryConnector(dbConnection));
-                            repository.applyOutputOperations();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        RepositoryController repository = new RepositoryController(result);
+                        repository.applyOutputOperations();
                     }
                 }));
 
