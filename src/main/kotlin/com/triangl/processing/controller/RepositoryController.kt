@@ -6,13 +6,30 @@ import com.triangl.processing.dto.OutputOperationTypeDto
 import com.triangl.processing.outputEntity.*
 import com.triangl.processing.repository.RepositoryConnector
 import com.triangl.processing.repository.RepositoryExecutor
+import java.sql.DriverManager
+import java.sql.SQLException
 
 class RepositoryController (
-    private val outputOperation: OutputOperationDto<*>,
-    private val repositoryExecutor: RepositoryExecutor
+    private val outputOperation: OutputOperationDto<*>
 ) {
-    constructor(outputOperation: OutputOperationDto<*>, repositoryConnector: RepositoryConnector) :
-        this(outputOperation, RepositoryExecutor(repositoryConnector))
+    private lateinit var repositoryExecutor: RepositoryExecutor
+
+    constructor(outputOperation: OutputOperationDto<*>, repositoryExecutor: RepositoryExecutor) : this(outputOperation) {
+        this.repositoryExecutor = repositoryExecutor
+    }
+
+    init {
+        if (!::repositoryExecutor.isInitialized) {
+            val env = System.getenv()
+            try {
+                val dbConnection = DriverManager.getConnection(env["JDBC_URL"], env["DB_USER"], env["DB_PASSWORD"])
+                val repositoryConnector = RepositoryConnector(dbConnection)
+                this.repositoryExecutor = RepositoryExecutor(repositoryConnector)
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            }
+        }
+    }
 
     fun applyOutputOperations () {
         if (outputOperation == OutputOperationTypeDto.APPLY ||
