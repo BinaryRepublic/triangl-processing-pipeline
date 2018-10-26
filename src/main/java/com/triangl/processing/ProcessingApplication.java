@@ -14,6 +14,9 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -59,8 +62,13 @@ public class ProcessingApplication {
 
                         OutputOperationDto result = c.element();
 
-                        RepositoryController repository = new RepositoryController(result, new RepositoryConnector());
-                        repository.applyOutputOperations();
+                        try {
+                            Connection dbConnection = DriverManager.getConnection(env.get("JDBC_URL"), env.get("DB_USER"), env.get("DB_PASSWORD"));
+                            RepositoryController repository = new RepositoryController(result, new RepositoryConnector(dbConnection));
+                            repository.applyOutputOperations();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }));
 

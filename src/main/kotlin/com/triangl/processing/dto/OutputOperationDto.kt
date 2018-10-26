@@ -1,8 +1,9 @@
 package com.triangl.processing.dto
 
+import com.triangl.processing.repository.RepositoryEntity
 import java.io.Serializable
 
-data class OutputOperationDto<T: Serializable>(
+data class OutputOperationDto<T: RepositoryEntity>(
 
     var type: OutputOperationTypeDto,
 

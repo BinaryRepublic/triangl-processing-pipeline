@@ -52,7 +52,7 @@ public class ResultSetMapper<T> {
                     }
 
                 } else {
-
+                    System.console().printf("Entity annotation missing.");
                 }
             }
         } catch (IllegalAccessException | SQLException | InstantiationException | InvocationTargetException e) {
