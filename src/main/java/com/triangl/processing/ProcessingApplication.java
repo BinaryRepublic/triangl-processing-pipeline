@@ -4,11 +4,11 @@ import com.triangl.processing.controller.ConverterController;
 import com.triangl.processing.controller.RepositoryController;
 import com.triangl.processing.dto.InputOperationTypeDto;
 import com.triangl.processing.dto.OutputOperationDto;
+import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.runners.direct.DirectRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
-import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
@@ -27,8 +27,9 @@ public class ProcessingApplication {
         String projectId = env.get("PROJECT_ID");
         String pubsubTopic = env.get("PUBSUB_TOPIC");
 
-        PipelineOptions options = PipelineOptionsFactory.as(PipelineOptions.class);
+        DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
         options.setRunner(DirectRunner.class);
+        options.setProject(projectId);
 
         String TOPIC_NAME = MessageFormat.format("projects/{0}/topics/{1}", projectId, pubsubTopic);
 
