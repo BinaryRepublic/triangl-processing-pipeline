@@ -1,0 +1,39 @@
+ALTER TABLE Map
+DROP FOREIGN KEY Map_ibfk_1;
+ALTER TABLE Map
+ADD CONSTRAINT map_fk_customerId
+FOREIGN KEY (customerId)
+REFERENCES Customer(id)
+ON DELETE CASCADE;
+
+ALTER TABLE Router
+DROP FOREIGN KEY Router_ibfk_1;
+ALTER TABLE Router
+ADD CONSTRAINT router_fk_coordinateId
+FOREIGN KEY (coordinateId)
+REFERENCES Coordinate(id)
+ON DELETE CASCADE;
+
+ALTER TABLE Router
+DROP FOREIGN KEY Router_ibfk_2;
+ALTER TABLE Router
+ADD CONSTRAINT router_fk_mapId
+FOREIGN KEY (mapId)
+REFERENCES Map(id)
+ON DELETE CASCADE;
+
+ALTER TABLE TrackedDevice
+DROP FOREIGN KEY TrackedDevice_ibfk_1;
+ALTER TABLE TrackedDevice
+ADD CONSTRAINT trackedDevice_fk_mapId
+FOREIGN KEY (mapId)
+REFERENCES Map(id)
+ON DELETE CASCADE;
+
+ALTER TABLE TrackingPoint
+DROP FOREIGN KEY TrackingPoint_ibfk_1;
+ALTER TABLE TrackingPoint
+ADD CONSTRAINT trackingPoint_fk_trackedDeviceId
+FOREIGN KEY (trackedDeviceId)
+REFERENCES TrackedDevice(id)
+ON DELETE CASCADE;

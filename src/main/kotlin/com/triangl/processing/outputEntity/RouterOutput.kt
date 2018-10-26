@@ -3,7 +3,9 @@ package com.triangl.processing.outputEntity
 import com.triangl.processing.repository.RepositoryEntity
 import java.util.*
 import javax.persistence.Column
+import javax.persistence.Entity
 
+@Entity
 class RouterOutput: RepositoryEntity {
 
     @Column(name = "id")
