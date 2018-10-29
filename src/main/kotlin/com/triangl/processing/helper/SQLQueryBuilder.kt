@@ -26,7 +26,7 @@ class SQLQueryBuilder (
     fun delete(id: String) =
         "DELETE FROM $table WHERE id=\"$id\""
 
-    fun <T: RepositoryEntity>deleteNotIn(data: List<T>): String? {
+    fun <T: RepositoryEntity>deleteNotIn(data: List<T>): List<String> {
         val notInIdClause = constructINClause(data.map { it.id })
         var preQuery: String? = null
 
@@ -39,20 +39,19 @@ class SQLQueryBuilder (
                 data as List<RouterOutput>
                 val foreignKeyClause = "mapId=\"${data[0].mapId}\""
                 val deleteCoordinateIds = "SELECT coordinateId FROM $table WHERE id NOT IN ($notInIdClause) AND $foreignKeyClause"
-                preQuery = "DELETE FROM Coordinate WHERE id IN ($deleteCoordinateIds))"
+                preQuery = "DELETE FROM Coordinate WHERE id IN ($deleteCoordinateIds)"
                 foreignKeyClause
             }
             else -> {
-                // TODO raise exception
-                return null
+                throw error("invalid table for deleteNotIn: $table")
             }
         }
 
         val mainQuery = "DELETE FROM $table WHERE id NOT IN ($notInIdClause) AND $foreignKeyClause"
         return if (preQuery != null) {
-            "$preQuery; $mainQuery;"
+            listOf(preQuery, mainQuery)
         } else {
-            mainQuery
+            listOf(mainQuery)
         }
     }
 
