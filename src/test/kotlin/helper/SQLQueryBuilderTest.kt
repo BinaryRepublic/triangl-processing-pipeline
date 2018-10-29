@@ -75,7 +75,7 @@ class SQLQueryBuilderTest {
         val queries = sqlQueryBuilder.deleteNotIn(data)
 
         // then
-        assertThat(queries.size).isEqualTo(2)
+        assertThat(queries.size).isEqualTo(1)
         assertThat(queries[0]).isEqualTo("DELETE FROM Map WHERE id NOT IN (\"m1\", \"m2\") AND customerId=\"c1\"")
     }
 
@@ -92,6 +92,7 @@ class SQLQueryBuilderTest {
         val queries = sqlQueryBuilder.deleteNotIn(data)
 
         // then
+        assertThat(queries.size).isEqualTo(2)
         assertThat(queries[0]).isEqualTo("DELETE FROM Coordinate WHERE id IN (SELECT coordinateId FROM Router WHERE id NOT IN (\"r1\", \"r2\") AND mapId=\"m1\")")
         assertThat(queries[1]).isEqualTo("DELETE FROM Router WHERE id NOT IN (\"r1\", \"r2\") AND mapId=\"m1\"")
     }
