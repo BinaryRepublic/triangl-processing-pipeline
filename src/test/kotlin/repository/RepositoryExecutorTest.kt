@@ -110,7 +110,7 @@ class RepositoryExecutorTest {
         val table = "Map"
         given(sqlQueryBuilder.select(anyString())).willReturn("select query")
         given(sqlQueryBuilder.insert(any())).willReturn("insert query")
-        given(sqlQueryBuilder.deleteNotIn(eq(operation.data))).willReturn(eq("deleteNotIn query"))
+        given(sqlQueryBuilder.deleteNotIn(eq(operation.data))).willReturn(eq(listOf("deleteNotIn query")))
 
         // when
         repositoryExecutor.run(operation, table, outputClass)

@@ -22,9 +22,11 @@ class RepositoryExecutor (
             }
         }
         if (operation.type == OutputOperationTypeDto.APPLY_AND_CLEAR) {
-            val query = sqlQueryBuilder.deleteNotIn(operation.data)
-            if (query != null) {
-                repositoryConnector.modify(query, outputClass)
+            val queries = sqlQueryBuilder.deleteNotIn(operation.data)
+            if (queries.isNotEmpty()) {
+                queries.forEach{query ->
+                    repositoryConnector.modify(query, outputClass)
+                }
             }
         }
     }
