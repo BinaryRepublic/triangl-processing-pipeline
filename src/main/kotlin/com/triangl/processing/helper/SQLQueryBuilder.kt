@@ -7,10 +7,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SQLQueryBuilder {
-
+class SQLQueryBuilder (
     var table: String? = null
-
+) {
     fun select(id: String) =
         "SELECT * FROM $table WHERE id=\"$id\""
 

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "tp1",
+    "routerDataPoints": [
+      {
+        "id": "56681843-489a-45a5-84da-5aa481c96aa2",
+        "router": {
+          "id": "AC:84:C6:E8:C9:D4",
+          "location": {
+            "id": "45179fe1-18d5-435c-98bf-613a9c04399a",
+            "x": 5570,
+            "y": 2760,
+            "lastUpdatedAt": "2018-10-19T15:10:14.266580Z",
+            "createdAt": "2018-10-19T15:10:14.266560Z"
+          }
+        },
+        "associatedAP": "78:8A:20:DA:96:B3",
+        "signalStrength": -91,
+        "timeOfFlight": null,
+        "timestamp": "2018-10-26T17:25:50Z"
+      }
+    ],
+    "deviceId": "td1",
+    "location": {
+      "id": "c1",
+      "x": 1,
+      "y": 1,
+      "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+      "createdAt": "2018-01-01T00:00:00.000Z"
+    },
+    "timestamp": "2018-01-01T00:00:00.000Z",
+    "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": "2018-01-01T00:00:00.000Z"
+  }
+]

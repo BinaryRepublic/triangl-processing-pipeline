@@ -11,11 +11,10 @@ import com.triangl.processing.inputEntity.CustomerInput
 import com.triangl.processing.inputEntity.TrackingPointInput
 import java.io.IOException
 
-class ConverterController {
-
-    private var customerConverter: CustomerConverter = CustomerConverter()
-
-    private var trackedDeviceController: TrackedDeviceConverter = TrackedDeviceConverter()
+class ConverterController (
+    private var customerConverter: CustomerConverter = CustomerConverter(),
+    private var trackedDeviceConverter: TrackedDeviceConverter = TrackedDeviceConverter()
+) {
 
     fun constructOutputOperations(inputOperationType: InputOperationTypeDto, jsonPayload: String, jsonAdditional: String?): OutputOperationDto<*> {
 
@@ -24,7 +23,7 @@ class ConverterController {
 
         return when (inputOperationType) {
             InputOperationTypeDto.APPLY_CUSTOMER -> customerConverter.apply(payloadObject as List<CustomerInput>)
-            InputOperationTypeDto.APPLY_TRACKING_POINT -> trackedDeviceController.apply(payloadObject as List<TrackingPointInput>, additional!!.mapId!!)
+            InputOperationTypeDto.APPLY_TRACKING_POINT -> trackedDeviceConverter.apply(payloadObject as List<TrackingPointInput>, additional!!.mapId!!)
         }
     }
 

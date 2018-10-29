@@ -35,32 +35,31 @@ public class ProcessingApplication {
 
         Pipeline p = Pipeline.create(options);
         p
-                .apply(PubsubIO.readMessagesWithAttributes().fromTopic(TOPIC_NAME))
-                .apply("ConstructDatabaseOutputOperations", ParDo.of(new DoFn<PubsubMessage, OutputOperationDto>() {
-                    @DoFn.ProcessElement
-                    public void processElement(ProcessContext c) {
-                        PubsubMessage message = c.element();
+            .apply(PubsubIO.readMessagesWithAttributes().fromTopic(TOPIC_NAME))
+            .apply("ConstructDatabaseOutputOperations", ParDo.of(new DoFn<PubsubMessage, OutputOperationDto>() {
+                @DoFn.ProcessElement
+                public void processElement(ProcessContext c) {
+                PubsubMessage message = c.element();
 
-                        String inputOperationTypeString = message.getAttribute("operation");
-                        InputOperationTypeDto inputOperationType = InputOperationTypeDto.valueOf(inputOperationTypeString);
-                        String jsonPayload = new String(message.getPayload()).replace("\n", "");
-                        String jsonAdditional = message.getAttribute("additional");
+                InputOperationTypeDto inputOperationType = InputOperationTypeDto.valueOf(message.getAttribute("operation"));
+                String jsonPayload = new String(message.getPayload()).replace("\n", "");
+                String jsonAdditional = message.getAttribute("additional");
 
-                        ConverterController converter = new ConverterController();
-                        OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload, jsonAdditional);
+                ConverterController converter = new ConverterController();
+                OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload, jsonAdditional);
 
-                        c.output(outputOperation);
-                    }
-                }))
-                .apply("ApplyOutputOperationsToDatabase", ParDo.of(new DoFn<OutputOperationDto, String>() {
-                    @ProcessElement
-                    public void processElement(ProcessContext c) {
+                c.output(outputOperation);
+                }
+            }))
+            .apply("ApplyOutputOperationsToDatabase", ParDo.of(new DoFn<OutputOperationDto, String>() {
+                @ProcessElement
+                public void processElement(ProcessContext c) {
 
-                        OutputOperationDto result = c.element();
-                        RepositoryController repositoryController = new RepositoryController(result);
-                        repositoryController.applyOutputOperations();
-                    }
-                }));
+                OutputOperationDto result = c.element();
+                RepositoryController repositoryController = new RepositoryController(result);
+                repositoryController.applyOutputOperations();
+                }
+            }));
 
         // Run the pipeline
         p.run().waitUntilFinish();

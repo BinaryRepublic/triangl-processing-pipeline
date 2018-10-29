@@ -10,26 +10,25 @@ import com.triangl.processing.repository.RepositoryExecutor
 import java.sql.DriverManager
 import java.sql.SQLException
 
-class RepositoryController (
-    private val outputOperation: OutputOperationDto<*>
-) {
+class RepositoryController {
+    private var outputOperation: OutputOperationDto<*>
     private lateinit var repositoryExecutor: RepositoryExecutor
 
-    constructor(outputOperation: OutputOperationDto<*>, repositoryExecutor: RepositoryExecutor) : this(outputOperation) {
-        this.repositoryExecutor = repositoryExecutor
+    constructor(outputOperation: OutputOperationDto<*>) {
+        this.outputOperation = outputOperation
+        val env = System.getenv()
+        try {
+            val dbConnection = DriverManager.getConnection(env["JDBC_URL"], env["DB_USER"], env["DB_PASSWORD"])
+            val repositoryConnector = RepositoryConnector(dbConnection)
+            this.repositoryExecutor = RepositoryExecutor(repositoryConnector, SQLQueryBuilder())
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
     }
 
-    init {
-        if (!::repositoryExecutor.isInitialized) {
-            val env = System.getenv()
-            try {
-                val dbConnection = DriverManager.getConnection(env["JDBC_URL"], env["DB_USER"], env["DB_PASSWORD"])
-                val repositoryConnector = RepositoryConnector(dbConnection)
-                this.repositoryExecutor = RepositoryExecutor(repositoryConnector, SQLQueryBuilder())
-            } catch (e: SQLException) {
-                e.printStackTrace()
-            }
-        }
+    constructor(outputOperation: OutputOperationDto<*>, repositoryExecutor: RepositoryExecutor) {
+        this.outputOperation = outputOperation
+        this.repositoryExecutor = repositoryExecutor
     }
 
     fun applyOutputOperations () {
