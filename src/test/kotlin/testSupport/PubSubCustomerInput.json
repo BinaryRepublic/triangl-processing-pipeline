@@ -1,0 +1,36 @@
+[
+  {
+    "id":"c1",
+    "name":"name_c1",
+    "maps":[
+      {
+        "id": "m1",
+        "name": "name_m1",
+        "svgPath": "svgPath_m1",
+        "size": {
+          "id": "ms1",
+          "x": 1.0,
+          "y": 1.0
+        },
+        "router": [
+          {
+            "id": "r1",
+            "location": {
+              "id": "c1",
+              "x": 1.0,
+              "y": 1.0,
+              "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+              "createdAt": "2018-01-01T00:00:00.000Z"
+            },
+            "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+            "createdAt": "2018-01-01T00:00:00.000Z"
+          }
+        ],
+        "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+        "createdAt": "2018-01-01T00:00:00.000Z"
+      }
+    ],
+    "lastUpdatedAt": "2018-01-01T00:00:00.000Z",
+    "createdAt": "2018-01-01T00:00:00.000Z"
+  }
+]
