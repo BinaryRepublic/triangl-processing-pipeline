@@ -21,7 +21,7 @@ class SQLQueryBuilder (
     }
 
     fun update(data: HashMap<String, Any?>) =
-        "UPDATE $table SET ${data.filter { it.key != "id" }.map { "${it.key}=${formatValueForQuery(it.value)}" }.joinToString(", ")}"
+        "UPDATE $table SET ${data.filter { it.key != "id" }.map { "${it.key}=${formatValueForQuery(it.value)}" }.joinToString(", ")} WHERE id=\"${data["id"]}\""
 
     fun delete(id: String) =
         "DELETE FROM $table WHERE id=\"$id\""

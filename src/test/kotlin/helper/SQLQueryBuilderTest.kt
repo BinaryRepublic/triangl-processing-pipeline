@@ -47,7 +47,7 @@ class SQLQueryBuilderTest {
         val query = sqlQueryBuilder.update(customer.toHashMap())
 
         // then
-        assertThat(query).isEqualTo("UPDATE Customer SET name=\"name_c1\", createdAt=\"2018.01.01 00:00:00\", lastUpdatedAt=\"2018.01.01 00:00:00\"")
+        assertThat(query).isEqualTo("UPDATE Customer SET name=\"name_c1\", createdAt=\"2018.01.01 00:00:00\", lastUpdatedAt=\"2018.01.01 00:00:00\" WHERE id=\"c1\"")
     }
 
     @Test
