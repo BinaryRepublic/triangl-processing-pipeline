@@ -61,16 +61,16 @@ public class ProcessingApplication {
             .apply("ConstructDatabaseOutputOperations", ParDo.of(new DoFn<PubsubMessage, OutputOperationDto>() {
                 @DoFn.ProcessElement
                 public void processElement(ProcessContext c) {
-                PubsubMessage message = c.element();
+                    PubsubMessage message = c.element();
 
-                InputOperationTypeDto inputOperationType = InputOperationTypeDto.valueOf(message.getAttribute("operation"));
-                String jsonPayload = new String(message.getPayload()).replace("\n", "");
-                String jsonAdditional = message.getAttribute("additional");
+                    InputOperationTypeDto inputOperationType = InputOperationTypeDto.valueOf(message.getAttribute("operation"));
+                    String jsonPayload = new String(message.getPayload()).replace("\n", "");
+                    String jsonAdditional = message.getAttribute("additional");
 
-                ConverterController converter = new ConverterController();
-                OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload, jsonAdditional);
+                    ConverterController converter = new ConverterController();
+                    OutputOperationDto<?> outputOperation = converter.constructOutputOperations(inputOperationType, jsonPayload, jsonAdditional);
 
-                c.output(outputOperation);
+                    c.output(outputOperation);
                 }
             }))
             .apply("ApplyOutputOperationsToDatabase", ParDo.of(new DoFn<OutputOperationDto, String>() {

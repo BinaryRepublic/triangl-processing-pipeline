@@ -7,26 +7,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SQLQueryBuilder (
-    var table: String? = null
-) {
-    fun select(id: String) =
-        "SELECT * FROM $table WHERE id=\"$id\""
+class SQLQueryBuilder {
 
-    fun insert(data: HashMap<String, Any?>): String {
+    fun insert(data: HashMap<String, Any?>, table: String): String {
         val filteredData = data.filter { it.value != null }
         val keys = filteredData.map { it.key }.joinToString(", ")
         val values = filteredData.map { formatValueForQuery(it.value) }.joinToString(", ")
         return "INSERT INTO $table ($keys) VALUES ($values)"
     }
 
-    fun update(data: HashMap<String, Any?>) =
-        "UPDATE $table SET ${data.filter { it.key != "id" }.map { "${it.key}=${formatValueForQuery(it.value)}" }.joinToString(", ")} WHERE id=\"${data["id"]}\""
+    fun insertOrUpdate(data: HashMap<String, Any?>, table: String): String {
+        val insertQuery = insert(data, table)
+        val updateQuery = "UPDATE ${data.filter { it.key != "id" }.map { "${it.key}=VALUES(${it.key})" }.joinToString(", ")}"
+        return "$insertQuery ON DUPLICATE KEY $updateQuery"
+    }
 
-    fun delete(id: String) =
+    fun delete(id: String, table: String) =
         "DELETE FROM $table WHERE id=\"$id\""
 
-    fun <T: RepositoryEntity>deleteNotIn(data: List<T>): List<String> {
+    fun <T: RepositoryEntity>deleteNotIn(data: List<T>, table: String): List<String> {
         val notInIdClause = constructINClause(data.map { it.id })
         var preQuery: String? = null
 
