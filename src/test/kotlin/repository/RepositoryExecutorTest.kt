@@ -33,43 +33,7 @@ class RepositoryExecutorTest {
     private val mockData = MockData()
 
     @Test
-    fun `should check existing and update`() {
-        // given
-        val data = mockData.customerOutput("c1")
-        val outputClass = CustomerOutput::class.java
-
-        given(sqlQueryBuilder.select(anyString())).willReturn("select query")
-        given(sqlQueryBuilder.update(any())).willReturn("update query")
-        given(repositoryConnector.get(anyString(), eq(outputClass))).willReturn(listOf(data))
-
-        // when
-        repositoryExecutor.apply(data, outputClass)
-
-        // then
-        verify(repositoryConnector, times(1)).get(eq("select query"), eq(outputClass))
-        verify(repositoryConnector, times(1)).modify(eq("update query"), eq(outputClass))
-    }
-
-    @Test
-    fun `should check existing and create if missing`() {
-        // given
-        val data = mockData.customerOutput("c1")
-        val outputClass = CustomerOutput::class.java
-
-        given(sqlQueryBuilder.select(anyString())).willReturn("select query")
-        given(sqlQueryBuilder.insert(any())).willReturn("insert query")
-        given(repositoryConnector.get(anyString(), eq(outputClass))).willReturn(emptyList())
-
-        // when
-        repositoryExecutor.apply(data, outputClass)
-
-        // then
-        verify(repositoryConnector, times(1)).get(eq("select query"), eq(outputClass))
-        verify(repositoryConnector, times(1)).modify(eq("insert query"), eq(outputClass))
-    }
-
-    @Test
-    fun `should APPLY existing and update`() {
+    fun `should APPLY by inserting or updating`() {
         // given
         val operation = OutputOperationDto(
                 type = OutputOperationTypeDto.APPLY,
@@ -82,20 +46,17 @@ class RepositoryExecutorTest {
         )
         val outputClass = CustomerOutput::class.java
         val table = "Customer"
-        given(sqlQueryBuilder.select(anyString())).willReturn("select query")
-        given(sqlQueryBuilder.update(any())).willReturn("update query")
-        given(repositoryConnector.get(anyString(), eq(outputClass))).willReturn(listOf(operation.data[0]))
+        given(sqlQueryBuilder.insertOrUpdate(any(), eq(table))).willReturn("insertOrUpdate query")
 
         // when
         repositoryExecutor.run(operation, table, outputClass)
 
         // then
-        verify(repositoryConnector, times(3)).get(eq("select query"), eq(outputClass))
-        verify(repositoryConnector, times(3)).modify(eq("update query"), eq(outputClass))
+        verify(repositoryConnector, times(3)).modify(eq("insertOrUpdate query"), eq(outputClass))
     }
 
     @Test
-    fun `should APPLY_AND_CLEAR missing and create`() {
+    fun `should APPLY_AND_CLEAR by inserting or updating and clear`() {
         // given
         val operation = OutputOperationDto(
             type = OutputOperationTypeDto.APPLY_AND_CLEAR,
@@ -108,16 +69,15 @@ class RepositoryExecutorTest {
         )
         val outputClass = MapOutput::class.java
         val table = "Map"
-        given(sqlQueryBuilder.select(anyString())).willReturn("select query")
-        given(sqlQueryBuilder.insert(any())).willReturn("insert query")
-        given(sqlQueryBuilder.deleteNotIn(eq(operation.data))).willReturn(eq(listOf("deleteNotIn query")))
+
+        given(sqlQueryBuilder.insertOrUpdate(any(), eq(table))).willReturn("insertOrUpdate query")
+        given(sqlQueryBuilder.deleteNotIn(eq(operation.data), eq(table))).willReturn(listOf("deleteNotIn query"))
 
         // when
         repositoryExecutor.run(operation, table, outputClass)
 
         // then
-        verify(repositoryConnector, times(3)).get(eq("select query"), eq(outputClass))
-        verify(repositoryConnector, times(3)).modify(eq("insert query"), eq(outputClass))
+        verify(repositoryConnector, times(3)).modify(eq("insertOrUpdate query"), eq(outputClass))
         verify(repositoryConnector, times(1)).modify(eq("deleteNotIn query"), eq(outputClass))
     }
 
@@ -135,7 +95,7 @@ class RepositoryExecutorTest {
         )
         val outputClass = RouterOutput::class.java
         val table = "Router"
-        given(sqlQueryBuilder.delete(anyString())).willReturn("delete query")
+        given(sqlQueryBuilder.delete(anyString(), eq(table))).willReturn("delete query")
 
         // when
         repositoryExecutor.run(operation, table, outputClass)

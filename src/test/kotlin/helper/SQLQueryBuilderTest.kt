@@ -13,50 +13,38 @@ class SQLQueryBuilderTest {
     private val mockData = MockData()
 
     @Test
-    fun `should build select query`() {
-        // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
-
-        // when
-        val query = sqlQueryBuilder.select("c1")
-
-        // then
-        assertThat(query).isEqualTo("SELECT * FROM Customer WHERE id=\"c1\"")
-    }
-
-    @Test
     fun `should build insert query`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val customer = mockData.customerOutput("c1")
 
         // when
-        val query = sqlQueryBuilder.insert(customer.toHashMap())
+        val query = sqlQueryBuilder.insert(customer.toHashMap(), "Customer")
 
         // then
         assertThat(query).isEqualTo("INSERT INTO Customer (name, createdAt, id, lastUpdatedAt) VALUES (\"name_c1\", \"2018.01.01 00:00:00\", \"c1\", \"2018.01.01 00:00:00\")")
     }
 
     @Test
-    fun `should build update query`() {
+    fun `should build insert or update query`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val customer = mockData.customerOutput("c1")
 
         // when
-        val query = sqlQueryBuilder.update(customer.toHashMap())
+        val query = sqlQueryBuilder.insertOrUpdate(customer.toHashMap(), "Customer")
 
         // then
-        assertThat(query).isEqualTo("UPDATE Customer SET name=\"name_c1\", createdAt=\"2018.01.01 00:00:00\", lastUpdatedAt=\"2018.01.01 00:00:00\" WHERE id=\"c1\"")
+        assertThat(query).isEqualTo("INSERT INTO Customer (name, createdAt, id, lastUpdatedAt) VALUES (\"name_c1\", \"2018.01.01 00:00:00\", \"c1\", \"2018.01.01 00:00:00\") ON DUPLICATE KEY UPDATE name=VALUES(name), createdAt=VALUES(createdAt), lastUpdatedAt=VALUES(lastUpdatedAt)")
     }
 
     @Test
     fun `should build delete query`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
 
         // when
-        val query = sqlQueryBuilder.delete("c1")
+        val query = sqlQueryBuilder.delete("c1", "Customer")
 
         // then
         assertThat(query).isEqualTo("DELETE FROM Customer WHERE id=\"c1\"")
@@ -65,14 +53,14 @@ class SQLQueryBuilderTest {
     @Test
     fun `should build deleteNotIn query for map`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Map")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val data = listOf(
             mockData.mapOutput("m1", "c1"),
             mockData.mapOutput("m2", "c1")
         )
 
         // when
-        val queries = sqlQueryBuilder.deleteNotIn(data)
+        val queries = sqlQueryBuilder.deleteNotIn(data, "Map")
 
         // then
         assertThat(queries.size).isEqualTo(1)
@@ -82,14 +70,14 @@ class SQLQueryBuilderTest {
     @Test
     fun `should build deleteNotIn query for router`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Router")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val data = listOf(
             mockData.routerOutput("r1", "c1", "m1"),
             mockData.routerOutput("r2", "c2", "m1")
         )
 
         // when
-        val queries = sqlQueryBuilder.deleteNotIn(data)
+        val queries = sqlQueryBuilder.deleteNotIn(data, "Router")
 
         // then
         assertThat(queries.size).isEqualTo(2)
@@ -100,7 +88,7 @@ class SQLQueryBuilderTest {
     @Test
     fun `should format strings for queries`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val string = "string"
 
         // when
@@ -113,7 +101,7 @@ class SQLQueryBuilderTest {
     @Test
     fun `should format dates for queries`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val date = mockData.defaultDate
 
         // when
@@ -126,7 +114,7 @@ class SQLQueryBuilderTest {
     @Test
     fun `should construct IN clause`() {
         // given
-        val sqlQueryBuilder = SQLQueryBuilder("Customer")
+        val sqlQueryBuilder = SQLQueryBuilder()
         val values = listOf("v1", "v2", "v3")
 
         // when

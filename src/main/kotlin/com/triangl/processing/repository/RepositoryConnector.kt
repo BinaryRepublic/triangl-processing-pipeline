@@ -8,8 +8,6 @@ import java.sql.SQLException
 class RepositoryConnector (
     private var connection: Connection
 ) {
-    fun <T>get(query: String, outputClass: Class<T>) =
-        run(false, query, outputClass)
 
     fun <T>modify(query: String, outputClass: Class<T>) =
         run(true, query, outputClass)
