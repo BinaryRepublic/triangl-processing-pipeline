@@ -60,6 +60,7 @@ flyway {
 }
 
 jar {
+    zip64=true
     doFirst {
         from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
     }
