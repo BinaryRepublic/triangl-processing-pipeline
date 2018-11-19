@@ -4,10 +4,7 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.inOrder
 import com.nhaarman.mockito_kotlin.times
 import com.triangl.processing.controller.RepositoryController
-import com.triangl.processing.outputEntity.CoordinateOutput
-import com.triangl.processing.outputEntity.CustomerOutput
-import com.triangl.processing.outputEntity.MapOutput
-import com.triangl.processing.outputEntity.RouterOutput
+import com.triangl.processing.outputEntity.*
 import com.triangl.processing.repository.RepositoryExecutor
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,6 +51,16 @@ class RepositoryControllerTest {
                 eq("Router"),
                 eq(RouterOutput::class.java)
             )
+            verify(repositoryExecutor, times(1)).run(
+                eq(outputOperation.children[0].children[1]),
+                eq("Area"),
+                eq(AreaOutput::class.java)
+            )
+            verify(repositoryExecutor, times(1)).run(
+                eq(outputOperation.children[0].children[1].children[0]),
+                eq("Coordinate"),
+                eq(CoordinateOutput::class.java)
+            )
         }
     }
 
@@ -77,6 +84,16 @@ class RepositoryControllerTest {
                     eq(outputOperation.children[0].children[0].parents[0]),
                     eq("Coordinate"),
                     eq(CoordinateOutput::class.java)
+            )
+            verify(repositoryExecutor, times(1)).run(
+                    eq(outputOperation.children[0].children[1].children[0]),
+                    eq("Coordinate"),
+                    eq(CoordinateOutput::class.java)
+            )
+            verify(repositoryExecutor, times(1)).run(
+                    eq(outputOperation.children[0].children[1]),
+                    eq("Area"),
+                    eq(AreaOutput::class.java)
             )
             verify(repositoryExecutor, times(1)).run(
                     eq(outputOperation.children[0]),

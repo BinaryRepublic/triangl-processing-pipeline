@@ -39,11 +39,19 @@ class MockData {
             lastUpdatedAt = defaultDate
         }
 
-    fun coordinateOutput(id: String) =
+    fun areaOutput(id: String) =
+        AreaOutput().apply {
+            this.id = id
+            createdAt = defaultDate
+            lastUpdatedAt = defaultDate
+        }
+
+    fun coordinateOutput(id: String, areaId: String? = null) =
         CoordinateOutput().apply {
             this.id = id
             x = 1F
             y = 1F
+            this.areaId = areaId
             createdAt = defaultDate
             lastUpdatedAt = defaultDate
         }

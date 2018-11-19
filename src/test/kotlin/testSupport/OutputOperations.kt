@@ -13,28 +13,44 @@ class OutputOperations {
             type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
             entity = OutputOperationEntityDto.CUSTOMER,
             data = listOf(
-                    mockData.customerOutput("c1")
+                mockData.customerOutput("c1")
             ),
             children = listOf(
                 OutputOperationDto(
                     type = if (!delete) OutputOperationTypeDto.APPLY_AND_CLEAR else OutputOperationTypeDto.DELETE,
                     entity = OutputOperationEntityDto.MAP,
                     data = listOf(
-                            mockData.mapOutput("m1", "c1")
+                        mockData.mapOutput("m1", "c1")
                     ),
                     children = listOf(
                         OutputOperationDto(
                             type = if (!delete) OutputOperationTypeDto.APPLY_AND_CLEAR else OutputOperationTypeDto.DELETE,
                             entity = OutputOperationEntityDto.ROUTER,
                             data = listOf(
-                                    mockData.routerOutput("r1", "c1", "m1")
+                                mockData.routerOutput("r1", "c1", "m1")
                             ),
                             parents = listOf(
                                 OutputOperationDto(
                                     type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
                                     entity = OutputOperationEntityDto.COORDINATE,
                                     data = listOf(
-                                            mockData.coordinateOutput("c1")
+                                        mockData.coordinateOutput("c1")
+                                    )
+                                )
+                            )
+                        ),
+                        OutputOperationDto(
+                            type = if (!delete) OutputOperationTypeDto.APPLY_AND_CLEAR else OutputOperationTypeDto.DELETE,
+                            entity = OutputOperationEntityDto.AREA,
+                            data = listOf(
+                                mockData.areaOutput("a1")
+                            ),
+                            children = listOf(
+                                OutputOperationDto(
+                                    type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
+                                    entity = OutputOperationEntityDto.COORDINATE,
+                                    data = listOf(
+                                        mockData.coordinateOutput("v1", "a1")
                                     )
                                 )
                             )
