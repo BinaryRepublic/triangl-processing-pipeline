@@ -13,26 +13,27 @@ class AreaConverter {
 
     private val coordinateConverter = CoordinateConverter()
 
-    fun convert (areaInput: AreaInput): AreaOutput {
+    fun convert (areaInput: AreaInput, mapId: String): AreaOutput {
         return AreaOutput().apply {
             id = areaInput.id!!
+            this.mapId = mapId
             createdAt = areaInput.createdAt
             lastUpdatedAt = areaInput.lastUpdatedAt
         }
     }
 
-    fun applyAndClear (areaInputs: List<AreaInput>) =
-        apply(OutputOperationTypeDto.APPLY_AND_CLEAR, areaInputs)
+    fun applyAndClear (areaInputs: List<AreaInput>, mapId: String) =
+        apply(OutputOperationTypeDto.APPLY_AND_CLEAR, areaInputs, mapId)
 
-    fun apply (operation: OutputOperationTypeDto, areaInputs: List<AreaInput>): OutputOperationDto<*> {
+    fun apply (operation: OutputOperationTypeDto, areaInputs: List<AreaInput>, mapId: String): OutputOperationDto<*> {
 
         return OutputOperationDto(
             type = operation,
             entity = OutputOperationEntityDto.AREA,
-            data = areaInputs.map { convert(it) },
+            data = areaInputs.map { convert(it, mapId) },
             children = areaInputs.filter { it.vertices != null && it.vertices!!.isNotEmpty() }.map { areaInput ->
                 coordinateConverter.apply(areaInput.vertices!!, areaInput.id)
             }
-    )
+        )
     }
 }

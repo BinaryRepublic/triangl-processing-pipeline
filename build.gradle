@@ -24,15 +24,15 @@ repositories {
 }
 
 dependencies {
+    compile("mysql:mysql-connector-java:8.0.12")
+    compile("com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.11")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.beam:beam-sdks-java-core:2.7.0")
-    implementation("com.google.cloud.sql:postgres-socket-factory:1.0.11")
     implementation("org.apache.beam:beam-runners-google-cloud-dataflow-java:2.7.0")
     implementation("org.apache.beam:beam-sdks-java-io-google-cloud-platform:2.7.0")
     implementation("org.slf4j:slf4j-api:1.7.25")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.9.6")
-    implementation("mysql:mysql-connector-java:8.0.12")
-    implementation("com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.11")
     implementation("commons-beanutils:commons-beanutils:1.9.3")
     implementation("javax.persistence:javax.persistence-api:2.2")
     implementation("org.apache.beam:beam-runners-direct-java:2.7.0")

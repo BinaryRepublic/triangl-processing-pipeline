@@ -9,6 +9,9 @@ class AreaOutput: RepositoryEntity {
     @Column(name = "id")
     override lateinit var id: String
 
+    @Column(name = "mapId")
+    lateinit var mapId: String
+
     @Column(name = "createdAt")
     var createdAt: Date? = null
 
@@ -18,6 +21,7 @@ class AreaOutput: RepositoryEntity {
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
             "id" to id,
+            "mapId" to mapId,
             "createdAt" to createdAt,
             "lastUpdatedAt" to lastUpdatedAt
         )

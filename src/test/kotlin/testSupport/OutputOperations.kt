@@ -43,7 +43,7 @@ class OutputOperations {
                             type = if (!delete) OutputOperationTypeDto.APPLY_AND_CLEAR else OutputOperationTypeDto.DELETE,
                             entity = OutputOperationEntityDto.AREA,
                             data = listOf(
-                                mockData.areaOutput("a1")
+                                mockData.areaOutput("a1", "m1")
                             ),
                             children = listOf(
                                 OutputOperationDto(

@@ -39,9 +39,10 @@ class MockData {
             lastUpdatedAt = defaultDate
         }
 
-    fun areaOutput(id: String) =
+    fun areaOutput(id: String, mapId: String) =
         AreaOutput().apply {
             this.id = id
+            this.mapId = mapId
             createdAt = defaultDate
             lastUpdatedAt = defaultDate
         }

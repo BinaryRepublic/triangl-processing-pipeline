@@ -86,6 +86,23 @@ class SQLQueryBuilderTest {
     }
 
     @Test
+    fun `should build deleteNotIn query for area`() {
+        // given
+        val sqlQueryBuilder = SQLQueryBuilder()
+        val data = listOf(
+            mockData.areaOutput("a1", "m1"),
+            mockData.areaOutput("a2", "m1")
+        )
+
+        // when
+        val queries = sqlQueryBuilder.deleteNotIn(data, "Area")
+
+        // then
+        assertThat(queries.size).isEqualTo(1)
+        assertThat(queries[0]).isEqualTo("DELETE FROM Area WHERE id NOT IN (\"a1\", \"a2\") AND mapId=\"m1\"")
+    }
+
+    @Test
     fun `should format strings for queries`() {
         // given
         val sqlQueryBuilder = SQLQueryBuilder()

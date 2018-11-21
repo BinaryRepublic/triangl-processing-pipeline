@@ -40,7 +40,7 @@ class MapConverter {
             routerConverter.applyAndClear(mapInput.router!!, mapInput.id!!)
         }
         val areaOutputOperations = mapInputs.filter { it.areas != null && it.areas!!.isNotEmpty() }.map { mapInput ->
-            areaConverter.applyAndClear(mapInput.areas!!)
+            areaConverter.applyAndClear(mapInput.areas!!, mapInput.id!!)
         }
         val children = ArrayList<OutputOperationDto<*>>(routerOutputOperations.size + areaOutputOperations.size)
         children.addAll(routerOutputOperations)
