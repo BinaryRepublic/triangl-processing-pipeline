@@ -49,6 +49,7 @@ class RepositoryController(
             OutputOperationEntityDto.CUSTOMER -> repositoryExecutor.run(op, "Customer", CustomerOutput::class.java)
             OutputOperationEntityDto.MAP -> repositoryExecutor.run(op, "Map", MapOutput::class.java)
             OutputOperationEntityDto.ROUTER -> repositoryExecutor.run(op, "Router", RouterOutput::class.java)
+            OutputOperationEntityDto.AREA -> repositoryExecutor.run(op, "Area", AreaOutput::class.java)
             OutputOperationEntityDto.COORDINATE -> repositoryExecutor.run(op, "Coordinate", CoordinateOutput::class.java)
             OutputOperationEntityDto.TRACKED_DEVICE -> repositoryExecutor.run(op, "TrackedDevice", TrackedDeviceOutput::class.java)
             OutputOperationEntityDto.TRACKING_POINT -> repositoryExecutor.run(op, "TrackingPoint", TrackingPointOutput::class.java)

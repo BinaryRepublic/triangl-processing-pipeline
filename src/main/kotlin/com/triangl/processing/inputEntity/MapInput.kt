@@ -12,6 +12,8 @@ class MapInput : InputEntity() {
 
     var size: CoordinateInput? = null
 
+    var areas: List<AreaInput>? = null
+
     var router: List<RouterInput>? = null
 
     var createdAt: Date? = null

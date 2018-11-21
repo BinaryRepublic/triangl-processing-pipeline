@@ -25,6 +25,7 @@ class RepositoryExecutor (
             val queries = sqlQueryBuilder.deleteNotIn(operation.data, table)
             if (queries.isNotEmpty()) {
                 queries.forEach{query ->
+                    System.out.printf("$query\n")
                     repositoryConnector.modify(query, outputClass)
                 }
             }
@@ -39,7 +40,7 @@ class RepositoryExecutor (
 
     private fun <T: RepositoryEntity>delete (data: T, table: String, outputClass: Class<T>) {
         val query = sqlQueryBuilder.delete(data.id, table)
-        repositoryConnector.modify(query, outputClass)
         System.out.printf("$query\n")
+        repositoryConnector.modify(query, outputClass)
     }
 }

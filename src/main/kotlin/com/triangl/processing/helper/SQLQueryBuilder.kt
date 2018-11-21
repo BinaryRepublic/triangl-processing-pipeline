@@ -1,5 +1,6 @@
 package com.triangl.processing.helper
 
+import com.triangl.processing.outputEntity.AreaOutput
 import com.triangl.processing.outputEntity.MapOutput
 import com.triangl.processing.outputEntity.RouterOutput
 import com.triangl.processing.repository.RepositoryEntity
@@ -40,6 +41,10 @@ class SQLQueryBuilder {
                 val deleteCoordinateIds = "SELECT coordinateId FROM $table WHERE id NOT IN ($notInIdClause) AND $foreignKeyClause"
                 preQuery = "DELETE FROM Coordinate WHERE id IN ($deleteCoordinateIds)"
                 foreignKeyClause
+            }
+            "Area" -> {
+                data as List<AreaOutput>
+                "mapId=\"${data[0].mapId}\""
             }
             else -> {
                 throw error("invalid table for deleteNotIn: $table")

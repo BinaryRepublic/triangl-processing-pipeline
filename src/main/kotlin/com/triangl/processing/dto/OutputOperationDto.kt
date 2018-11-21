@@ -35,6 +35,8 @@ enum class OutputOperationEntityDto {
 
     ROUTER,
 
+    AREA,
+
     COORDINATE,
 
     TRACKED_DEVICE,
