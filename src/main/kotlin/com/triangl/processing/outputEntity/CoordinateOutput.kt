@@ -31,6 +31,7 @@ class CoordinateOutput: RepositoryEntity {
             "id" to id,
             "x" to x,
             "y" to y,
+            "areaId" to areaId,
             "createdAt" to createdAt,
             "lastUpdatedAt" to lastUpdatedAt
         )
