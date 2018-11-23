@@ -4,10 +4,7 @@ import com.triangl.processing.dto.OutputOperationDto
 import com.triangl.processing.dto.OutputOperationEntityDto
 import com.triangl.processing.dto.OutputOperationTypeDto
 import com.triangl.processing.inputEntity.AreaInput
-import com.triangl.processing.inputEntity.CoordinateInput
-import com.triangl.processing.inputEntity.MapInput
 import com.triangl.processing.outputEntity.AreaOutput
-import com.triangl.processing.outputEntity.CoordinateOutput
 
 class AreaConverter {
 
@@ -32,7 +29,7 @@ class AreaConverter {
             entity = OutputOperationEntityDto.AREA,
             data = areaInputs.map { convert(it, mapId) },
             children = areaInputs.filter { it.vertices != null && it.vertices!!.isNotEmpty() }.map { areaInput ->
-                coordinateConverter.apply(areaInput.vertices!!, areaInput.id)
+                coordinateConverter.apply(areaInput.vertices!!, areaId = areaInput.id!!)
             }
         )
     }

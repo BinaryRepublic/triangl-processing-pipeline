@@ -7,4 +7,6 @@ interface RepositoryEntity: Serializable {
     var id: String
 
     fun toHashMap(): HashMap<String, Any?>
+
+    fun getForeignKeyClearClause(): String?
 }

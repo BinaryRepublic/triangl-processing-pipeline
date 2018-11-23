@@ -28,4 +28,7 @@ class TrackedDeviceOutput: RepositoryEntity {
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause(): String? =
+        null
 }

@@ -60,11 +60,10 @@ class SQLQueryBuilderTest {
         )
 
         // when
-        val queries = sqlQueryBuilder.deleteNotIn(data, "Map")
+        val query = sqlQueryBuilder.deleteNotIn(data, "Map")
 
         // then
-        assertThat(queries.size).isEqualTo(1)
-        assertThat(queries[0]).isEqualTo("DELETE FROM Map WHERE id NOT IN (\"m1\", \"m2\") AND customerId=\"c1\"")
+        assertThat(query).isEqualTo("DELETE FROM Map WHERE id NOT IN (\"m1\", \"m2\") AND customerId=\"c1\"")
     }
 
     @Test
@@ -72,17 +71,15 @@ class SQLQueryBuilderTest {
         // given
         val sqlQueryBuilder = SQLQueryBuilder()
         val data = listOf(
-            mockData.routerOutput("r1", "c1", "m1"),
-            mockData.routerOutput("r2", "c2", "m1")
+            mockData.routerOutput("r1", "m1"),
+            mockData.routerOutput("r2", "m1")
         )
 
         // when
-        val queries = sqlQueryBuilder.deleteNotIn(data, "Router")
+        val query = sqlQueryBuilder.deleteNotIn(data, "Router")
 
         // then
-        assertThat(queries.size).isEqualTo(2)
-        assertThat(queries[0]).isEqualTo("DELETE FROM Coordinate WHERE id IN (SELECT coordinateId FROM Router WHERE id NOT IN (\"r1\", \"r2\") AND mapId=\"m1\")")
-        assertThat(queries[1]).isEqualTo("DELETE FROM Router WHERE id NOT IN (\"r1\", \"r2\") AND mapId=\"m1\"")
+        assertThat(query).isEqualTo("DELETE FROM Router WHERE id NOT IN (\"r1\", \"r2\") AND mapId=\"m1\"")
     }
 
     @Test
@@ -95,11 +92,10 @@ class SQLQueryBuilderTest {
         )
 
         // when
-        val queries = sqlQueryBuilder.deleteNotIn(data, "Area")
+        val query = sqlQueryBuilder.deleteNotIn(data, "Area")
 
         // then
-        assertThat(queries.size).isEqualTo(1)
-        assertThat(queries[0]).isEqualTo("DELETE FROM Area WHERE id NOT IN (\"a1\", \"a2\") AND mapId=\"m1\"")
+        assertThat(query).isEqualTo("DELETE FROM Area WHERE id NOT IN (\"a1\", \"a2\") AND mapId=\"m1\"")
     }
 
     @Test

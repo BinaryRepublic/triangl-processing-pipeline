@@ -14,9 +14,6 @@ class TrackingPointOutput: RepositoryEntity {
     @Column(name = "trackedDeviceId")
     lateinit var trackedDeviceId: String
 
-    @Column(name = "coordinateId")
-    lateinit var coordinateId: String
-
     @Column(name = "timestamp")
     var timestamp: Date? = null
 
@@ -30,10 +27,12 @@ class TrackingPointOutput: RepositoryEntity {
         return hashMapOf(
             "id" to id,
             "trackedDeviceId" to trackedDeviceId,
-            "coordinateId" to coordinateId,
             "timestamp" to timestamp,
             "createdAt" to createdAt,
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause(): String? =
+        null
 }

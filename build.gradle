@@ -26,21 +26,20 @@ repositories {
 dependencies {
     compile("mysql:mysql-connector-java:8.0.12")
     compile("com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.0.11")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.apache.beam:beam-sdks-java-core:2.7.0")
+    compile("org.apache.beam:beam-runners-google-cloud-dataflow-java:2.7.0")
+    compile("org.apache.beam:beam-sdks-java-io-google-cloud-platform:2.7.0")
+    compile("org.slf4j:slf4j-api:1.7.25")
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.6")
+    compile("commons-beanutils:commons-beanutils:1.9.3")
+    compile("javax.persistence:javax.persistence-api:2.2")
+    compile("org.apache.beam:beam-runners-direct-java:2.7.0")
+    compile("io.sentry:sentry-logback:1.7.13")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.apache.beam:beam-sdks-java-core:2.7.0")
-    implementation("org.apache.beam:beam-runners-google-cloud-dataflow-java:2.7.0")
-    implementation("org.apache.beam:beam-sdks-java-io-google-cloud-platform:2.7.0")
-    implementation("org.slf4j:slf4j-api:1.7.25")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.9.6")
-    implementation("commons-beanutils:commons-beanutils:1.9.3")
-    implementation("javax.persistence:javax.persistence-api:2.2")
-    implementation("org.apache.beam:beam-runners-direct-java:2.7.0")
-    implementation("io.sentry:sentry-logback:1.7.13")
-
-    testImplementation("junit:junit:4.12")
-    testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
-    testImplementation("org.assertj:assertj-core:3.11.1")
+    testCompile("junit:junit:4.12")
+    testCompile("com.nhaarman:mockito-kotlin:1.6.0")
+    testCompile("org.assertj:assertj-core:3.11.1")
 }
 compileKotlin {
     kotlinOptions {

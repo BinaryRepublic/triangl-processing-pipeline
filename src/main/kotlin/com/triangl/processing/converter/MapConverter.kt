@@ -5,9 +5,7 @@ import com.triangl.processing.dto.OutputOperationEntityDto
 import com.triangl.processing.dto.OutputOperationTypeDto
 import com.triangl.processing.inputEntity.MapInput
 import com.triangl.processing.outputEntity.MapOutput
-import java.util.ArrayList
-
-
+import java.util.*
 
 class MapConverter {
 

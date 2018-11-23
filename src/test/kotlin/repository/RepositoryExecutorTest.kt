@@ -71,7 +71,7 @@ class RepositoryExecutorTest {
         val table = "Map"
 
         given(sqlQueryBuilder.insertOrUpdate(any(), eq(table))).willReturn("insertOrUpdate query")
-        given(sqlQueryBuilder.deleteNotIn(eq(operation.data), eq(table))).willReturn(listOf("deleteNotIn query"))
+        given(sqlQueryBuilder.deleteNotIn(eq(operation.data), eq(table))).willReturn("deleteNotIn query")
 
         // when
         repositoryExecutor.run(operation, table, outputClass)
@@ -88,9 +88,9 @@ class RepositoryExecutorTest {
             type = OutputOperationTypeDto.DELETE,
             entity = OutputOperationEntityDto.ROUTER,
             data = listOf(
-                mockData.routerOutput("r1", "c1", "m1"),
-                mockData.routerOutput("r2", "c1", "m1"),
-                mockData.routerOutput("r3", "c1", "m1")
+                mockData.routerOutput("r1", "m1"),
+                mockData.routerOutput("r2", "m1"),
+                mockData.routerOutput("r3", "m1")
             )
         )
         val outputClass = RouterOutput::class.java

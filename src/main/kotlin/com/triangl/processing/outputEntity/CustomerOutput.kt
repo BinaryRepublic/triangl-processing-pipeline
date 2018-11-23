@@ -28,4 +28,7 @@ class CustomerOutput : RepositoryEntity {
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause(): String? =
+        null
 }
