@@ -30,10 +30,9 @@ class MockData {
             lastUpdatedAt = defaultDate
         }
 
-    fun routerOutput(id: String, coordinateId: String, mapId: String) =
+    fun routerOutput(id: String, mapId: String) =
         RouterOutput().apply {
             this.id = id
-            this.coordinateId = coordinateId
             this.mapId = mapId
             createdAt = defaultDate
             lastUpdatedAt = defaultDate
@@ -47,12 +46,14 @@ class MockData {
             lastUpdatedAt = defaultDate
         }
 
-    fun coordinateOutput(id: String, areaId: String? = null) =
+    fun coordinateOutput(id: String, routerId: String? = null, areaId: String? = null, trackingPointId: String? = null) =
         CoordinateOutput().apply {
             this.id = id
+            this.routerId = routerId
+            this.areaId = areaId
+            this.trackingPointId = trackingPointId
             x = 1F
             y = 1F
-            this.areaId = areaId
             createdAt = defaultDate
             lastUpdatedAt = defaultDate
         }
@@ -65,11 +66,10 @@ class MockData {
             lastUpdatedAt = defaultDate
         }
 
-    fun trackingPoint(id: String, trackedDeviceId: String, coordinateId: String) =
+    fun trackingPoint(id: String, trackedDeviceId: String) =
         TrackingPointOutput().apply {
             this.id = id
             this.trackedDeviceId = trackedDeviceId
-            this.coordinateId = coordinateId
             timestamp = defaultDate
             createdAt = defaultDate
             lastUpdatedAt = defaultDate

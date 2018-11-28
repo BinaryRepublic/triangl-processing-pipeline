@@ -10,11 +10,10 @@ class RouterConverter {
 
     private val coordinateConverter = CoordinateConverter()
 
-    fun convert (routerInput: RouterInput, mapId: String, coordinateId: String): RouterOutput {
+    fun convert (routerInput: RouterInput, mapId: String): RouterOutput {
         return RouterOutput().apply {
             id = routerInput.id!!
             this.mapId = mapId
-            this.coordinateId = coordinateId
             createdAt = routerInput.createdAt
             lastUpdatedAt = routerInput.lastUpdatedAt
         }
@@ -31,9 +30,9 @@ class RouterConverter {
         return OutputOperationDto(
             type = operation,
             entity = OutputOperationEntityDto.ROUTER,
-            data = routerInputs.map { convert(it, mapId, it.location!!.id!!) },
-            parents = routerInputs.filter { it.location != null }.map { routerInput ->
-                coordinateConverter.apply(listOf(routerInput.location!!))
+            data = routerInputs.map { convert(it, mapId) },
+            children = routerInputs.filter { it.location != null }.map { routerInput ->
+                coordinateConverter.apply(listOf(routerInput.location!!), routerId = routerInput.id!!)
             }
         )
     }

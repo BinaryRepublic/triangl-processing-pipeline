@@ -42,14 +42,14 @@ class RepositoryControllerTest {
                 eq(MapOutput::class.java)
             )
             verify(repositoryExecutor, times(1)).run(
-                eq(outputOperation.children[0].children[0].parents[0]),
-                eq("Coordinate"),
-                eq(CoordinateOutput::class.java)
-            )
-            verify(repositoryExecutor, times(1)).run(
                 eq(outputOperation.children[0].children[0]),
                 eq("Router"),
                 eq(RouterOutput::class.java)
+            )
+            verify(repositoryExecutor, times(1)).run(
+                eq(outputOperation.children[0].children[0].children[0]),
+                eq("Coordinate"),
+                eq(CoordinateOutput::class.java)
             )
             verify(repositoryExecutor, times(1)).run(
                 eq(outputOperation.children[0].children[1]),
@@ -76,14 +76,14 @@ class RepositoryControllerTest {
         // then
         inOrder (repositoryExecutor) {
             verify(repositoryExecutor, times(1)).run(
+                    eq(outputOperation.children[0].children[0].children[0]),
+                    eq("Coordinate"),
+                    eq(CoordinateOutput::class.java)
+            )
+            verify(repositoryExecutor, times(1)).run(
                     eq(outputOperation.children[0].children[0]),
                     eq("Router"),
                     eq(RouterOutput::class.java)
-            )
-            verify(repositoryExecutor, times(1)).run(
-                    eq(outputOperation.children[0].children[0].parents[0]),
-                    eq("Coordinate"),
-                    eq(CoordinateOutput::class.java)
             )
             verify(repositoryExecutor, times(1)).run(
                     eq(outputOperation.children[0].children[1].children[0]),

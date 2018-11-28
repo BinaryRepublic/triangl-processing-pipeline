@@ -27,14 +27,14 @@ class OutputOperations {
                             type = if (!delete) OutputOperationTypeDto.APPLY_AND_CLEAR else OutputOperationTypeDto.DELETE,
                             entity = OutputOperationEntityDto.ROUTER,
                             data = listOf(
-                                mockData.routerOutput("r1", "c1", "m1")
+                                mockData.routerOutput("r1", "m1")
                             ),
-                            parents = listOf(
+                            children = listOf(
                                 OutputOperationDto(
                                     type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
                                     entity = OutputOperationEntityDto.COORDINATE,
                                     data = listOf(
-                                        mockData.coordinateOutput("c1")
+                                        mockData.coordinateOutput("c1", routerId = "r1")
                                     )
                                 )
                             )
@@ -50,7 +50,7 @@ class OutputOperations {
                                     type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
                                     entity = OutputOperationEntityDto.COORDINATE,
                                     data = listOf(
-                                        mockData.coordinateOutput("v1", "a1")
+                                        mockData.coordinateOutput("v1", areaId = "a1")
                                     )
                                 )
                             )
@@ -72,14 +72,14 @@ class OutputOperations {
                     type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
                     entity = OutputOperationEntityDto.TRACKING_POINT,
                     data = listOf(
-                        mockData.trackingPoint("tp1", "td1", "c1")
+                        mockData.trackingPoint("tp1", "td1")
                     ),
-                    parents = listOf(
+                    children = listOf(
                         OutputOperationDto(
                             type = if (!delete) OutputOperationTypeDto.APPLY else OutputOperationTypeDto.DELETE,
                             entity = OutputOperationEntityDto.COORDINATE,
                             data = listOf(
-                                mockData.coordinateOutput("c1")
+                                mockData.coordinateOutput("c1", trackingPointId = "tp1")
                             )
                         )
                     )

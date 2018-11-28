@@ -11,9 +11,6 @@ class RouterOutput: RepositoryEntity {
     @Column(name = "id")
     override lateinit var id: String
 
-    @Column(name = "coordinateId")
-    lateinit var coordinateId: String
-
     @Column(name = "mapId")
     lateinit var mapId: String
 
@@ -26,10 +23,12 @@ class RouterOutput: RepositoryEntity {
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
             "id" to id,
-            "coordinateId" to coordinateId,
             "mapId" to mapId,
             "createdAt" to createdAt,
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause() =
+        "mapId=\"$mapId\""
 }

@@ -26,4 +26,7 @@ class AreaOutput: RepositoryEntity {
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause(): String =
+        "mapId=\"$mapId\""
 }

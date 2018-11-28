@@ -1,8 +1,5 @@
 package com.triangl.processing.helper
 
-import com.triangl.processing.outputEntity.AreaOutput
-import com.triangl.processing.outputEntity.MapOutput
-import com.triangl.processing.outputEntity.RouterOutput
 import com.triangl.processing.repository.RepositoryEntity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,37 +23,13 @@ class SQLQueryBuilder {
     fun delete(id: String, table: String) =
         "DELETE FROM $table WHERE id=\"$id\""
 
-    fun <T: RepositoryEntity>deleteNotIn(data: List<T>, table: String): List<String> {
+    fun <T: RepositoryEntity>deleteNotIn(data: List<T>, table: String): String {
+        val foreignKeyClearClause = data[0].getForeignKeyClearClause()
+        if (foreignKeyClearClause == null) {
+            ExceptionHandler.throwClearNotSupported(table)
+        }
         val notInIdClause = constructINClause(data.map { it.id })
-        var preQuery: String? = null
-
-        val foreignKeyClause: String = when (table) {
-            "Map" -> {
-                data as List<MapOutput>
-                "customerId=\"${data[0].customerId}\""
-            }
-            "Router" -> {
-                data as List<RouterOutput>
-                val foreignKeyClause = "mapId=\"${data[0].mapId}\""
-                val deleteCoordinateIds = "SELECT coordinateId FROM $table WHERE id NOT IN ($notInIdClause) AND $foreignKeyClause"
-                preQuery = "DELETE FROM Coordinate WHERE id IN ($deleteCoordinateIds)"
-                foreignKeyClause
-            }
-            "Area" -> {
-                data as List<AreaOutput>
-                "mapId=\"${data[0].mapId}\""
-            }
-            else -> {
-                throw error("invalid table for deleteNotIn: $table")
-            }
-        }
-
-        val mainQuery = "DELETE FROM $table WHERE id NOT IN ($notInIdClause) AND $foreignKeyClause"
-        return if (preQuery != null) {
-            listOf(preQuery, mainQuery)
-        } else {
-            listOf(mainQuery)
-        }
+        return "DELETE FROM $table WHERE id NOT IN ($notInIdClause) AND ${data[0].getForeignKeyClearClause()!!}"
     }
 
     fun formatValueForQuery(value: Any?): Any? {

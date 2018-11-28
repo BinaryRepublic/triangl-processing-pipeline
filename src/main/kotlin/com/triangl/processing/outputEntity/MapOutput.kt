@@ -44,4 +44,7 @@ class MapOutput: RepositoryEntity {
             "lastUpdatedAt" to lastUpdatedAt
         )
     }
+
+    override fun getForeignKeyClearClause() =
+        "customerId=\"$customerId\""
 }

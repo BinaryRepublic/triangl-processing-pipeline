@@ -10,11 +10,10 @@ class TrackingPointConverter {
 
     private val coordinateConverter = CoordinateConverter()
 
-    fun convert (trackingPointInput: TrackingPointInput, trackedDeviceId: String, coordinateId: String): TrackingPointOutput {
+    fun convert (trackingPointInput: TrackingPointInput, trackedDeviceId: String): TrackingPointOutput {
         return TrackingPointOutput().apply {
             id = trackingPointInput.id!!
             this.trackedDeviceId = trackedDeviceId
-            this.coordinateId = coordinateId
             timestamp = trackingPointInput.timestamp
             createdAt = trackingPointInput.createdAt
             lastUpdatedAt = trackingPointInput.lastUpdatedAt
@@ -26,9 +25,9 @@ class TrackingPointConverter {
         return OutputOperationDto(
             type = OutputOperationTypeDto.APPLY,
             entity = OutputOperationEntityDto.TRACKING_POINT,
-            data = trackingPointInputs.map { convert(it, trackedDeviceId, it.location!!.id!!) },
-            parents = trackingPointInputs.filter { it.location != null }.map { routerInput ->
-                coordinateConverter.apply(listOf(routerInput.location!!))
+            data = trackingPointInputs.map { convert(it, trackedDeviceId) },
+            children = trackingPointInputs.filter { it.location != null }.map { trackingPointInput ->
+                coordinateConverter.apply(listOf(trackingPointInput.location!!), trackingPointId = trackingPointInput.id!!)
             }
         )
     }
