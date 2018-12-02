@@ -36,6 +36,7 @@ dependencies {
     compile("javax.persistence:javax.persistence-api:2.2")
     compile("org.apache.beam:beam-runners-direct-java:2.7.0")
     compile("io.sentry:sentry-logback:1.7.13")
+    compile("com.google.cloud:google-cloud-pubsub:1.39.0")
 
     testCompile("junit:junit:4.12")
     testCompile("com.nhaarman:mockito-kotlin:1.6.0")

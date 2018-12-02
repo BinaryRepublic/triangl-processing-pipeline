@@ -1,5 +1,11 @@
 package com.triangl.processing;
 
+import com.google.api.gax.rpc.ApiException;
+import com.google.api.gax.rpc.StatusCode;
+import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
+import com.google.pubsub.v1.ProjectSubscriptionName;
+import com.google.pubsub.v1.ProjectTopicName;
+import com.google.pubsub.v1.PushConfig;
 import com.triangl.processing.controller.ConverterController;
 import com.triangl.processing.controller.RepositoryController;
 import com.triangl.processing.dto.InputOperationTypeDto;
@@ -15,13 +21,11 @@ import org.apache.beam.sdk.io.gcp.pubsub.PubsubMessage;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.ParDo;
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.Map;
-
 
 // based on pubsub example: https://gist.github.com/maciekrb/9c73cb94a258e177e023dba9049dda13
 
@@ -40,6 +44,23 @@ public class ProcessingApplication {
         }
     }
 
+    private static String setupPubSubSubscription(String projectId, String pubsubTopic, String subscriptionName) {
+        ProjectTopicName topic = ProjectTopicName.of(projectId, pubsubTopic);
+        ProjectSubscriptionName subscription = ProjectSubscriptionName.of(projectId, subscriptionName);
+        try (SubscriptionAdminClient subscriptionAdminClient = SubscriptionAdminClient.create()) {
+            subscriptionAdminClient.createSubscription(subscription, topic, PushConfig.getDefaultInstance(), 0);
+        } catch (ApiException e) {
+            if (e.getStatusCode().getCode() == StatusCode.Code.ALREADY_EXISTS) {
+                System.out.printf("Subscription %s:%s already exists.\n", topic.getProject(), topic.getTopic());
+            } else {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return subscription.toString();
+    }
+
     public static void main(String [] args) {
 
         setupDatabaseConnection();
@@ -48,16 +69,21 @@ public class ProcessingApplication {
 
         String projectId = env.get("PROJECT_ID");
         String pubsubTopic = env.get("PUBSUB_TOPIC");
+        String subscription = env.get("PUBSUB_SUBSCRIPTION");
+
+        if (projectId == null || pubsubTopic == null || subscription == null) {
+            throw new Error("environment variables must be set: PROJECT_ID, PUBSUB_TOPIC, PUBSUB_SUBSCRIPTION");
+        }
 
         DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
         options.setRunner(DirectRunner.class);
         options.setProject(projectId);
 
-        String TOPIC_NAME = MessageFormat.format("projects/{0}/topics/{1}", projectId, pubsubTopic);
+        String PUBSUB_SUBSCRIPTION = setupPubSubSubscription(projectId, pubsubTopic, subscription);
 
         Pipeline p = Pipeline.create(options);
         p
-            .apply(PubsubIO.readMessagesWithAttributes().fromTopic(TOPIC_NAME))
+            .apply(PubsubIO.readMessagesWithAttributes().fromSubscription(PUBSUB_SUBSCRIPTION))
             .apply("ConstructDatabaseOutputOperations", ParDo.of(new DoFn<PubsubMessage, OutputOperationDto>() {
                 @DoFn.ProcessElement
                 public void processElement(ProcessContext c) {

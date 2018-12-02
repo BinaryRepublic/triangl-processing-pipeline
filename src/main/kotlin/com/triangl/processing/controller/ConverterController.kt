@@ -22,8 +22,10 @@ class ConverterController (
         val additional = parseJsonAdditional(jsonAdditional)
 
         return when (inputOperationType) {
-            InputOperationTypeDto.APPLY_CUSTOMER -> customerConverter.apply(payloadObject as List<CustomerInput>)
-            InputOperationTypeDto.APPLY_TRACKING_POINT -> trackedDeviceConverter.apply(payloadObject as List<TrackingPointInput>, additional!!.mapId!!)
+            InputOperationTypeDto.APPLY_CUSTOMER ->
+                @Suppress("UNCHECKED_CAST") customerConverter.apply(payloadObject as List<CustomerInput>)
+            InputOperationTypeDto.APPLY_TRACKING_POINT ->
+                @Suppress("UNCHECKED_CAST") trackedDeviceConverter.apply(payloadObject as List<TrackingPointInput>, additional!!.mapId!!)
         }
     }
 
