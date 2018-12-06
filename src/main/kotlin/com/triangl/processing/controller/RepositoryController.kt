@@ -7,8 +7,8 @@ import com.triangl.processing.outputEntity.*
 import com.triangl.processing.repository.RepositoryExecutor
 
 class RepositoryController(
-    private var outputOperation: OutputOperationDto<*>,
-    private var repositoryExecutor: RepositoryExecutor
+        private var outputOperation: OutputOperationDto<*>,
+        private var repositoryExecutor: RepositoryExecutor
 ) {
 
     fun applyOutputOperations () {

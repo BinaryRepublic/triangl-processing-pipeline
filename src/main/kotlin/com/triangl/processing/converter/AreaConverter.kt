@@ -22,7 +22,7 @@ class AreaConverter {
     fun applyAndClear (areaInputs: List<AreaInput>, mapId: String) =
         apply(OutputOperationTypeDto.APPLY_AND_CLEAR, areaInputs, mapId)
 
-    fun apply (operation: OutputOperationTypeDto, areaInputs: List<AreaInput>, mapId: String): OutputOperationDto<*> {
+    fun apply (operation: OutputOperationTypeDto, areaInputs: List<AreaInput>, mapId: String): OutputOperationDto<AreaOutput> {
 
         return OutputOperationDto(
             type = operation,

@@ -21,7 +21,7 @@ class CoordinateConverter {
         }
     }
 
-    fun apply (coordinateInputs: List<CoordinateInput>, routerId: String? = null, areaId: String? = null, trackingPointId: String? = null): OutputOperationDto<*> {
+    fun apply (coordinateInputs: List<CoordinateInput>, routerId: String? = null, areaId: String? = null, trackingPointId: String? = null): OutputOperationDto<CoordinateOutput> {
 
         return OutputOperationDto(
             type = OutputOperationTypeDto.APPLY,

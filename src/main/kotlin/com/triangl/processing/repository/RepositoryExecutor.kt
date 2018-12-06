@@ -11,6 +11,7 @@ class RepositoryExecutor (
     fun <T: RepositoryEntity>run (operation: OutputOperationDto<*>, table: String, outputClass: Class<T>) {
 
         operation.data.forEach{item ->
+            @Suppress("UNCHECKED_CAST")
             val castedItem = item as T
             if (
                 operation.type == OutputOperationTypeDto.APPLY ||

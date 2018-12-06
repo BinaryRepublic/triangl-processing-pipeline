@@ -20,7 +20,7 @@ class TrackingPointConverter {
         }
     }
 
-    fun apply (trackingPointInputs: List<TrackingPointInput>, trackedDeviceId: String): OutputOperationDto<*> {
+    fun apply (trackingPointInputs: List<TrackingPointInput>, trackedDeviceId: String): OutputOperationDto<TrackingPointOutput> {
 
         return OutputOperationDto(
             type = OutputOperationTypeDto.APPLY,
