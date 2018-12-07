@@ -19,7 +19,7 @@ class TrackedDeviceConverter {
         }
     }
 
-    fun apply (trackingPointInputs: List<TrackingPointInput>, mapId: String): OutputOperationDto<*> {
+    fun apply (trackingPointInputs: List<TrackingPointInput>, mapId: String): OutputOperationDto<TrackedDeviceOutput> {
 
         return OutputOperationDto(
             type = OutputOperationTypeDto.APPLY,

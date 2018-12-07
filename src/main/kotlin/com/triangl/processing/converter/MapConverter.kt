@@ -32,7 +32,7 @@ class MapConverter {
     fun applyAndClear (mapInputs: List<MapInput>, customerId: String) =
         apply(OutputOperationTypeDto.APPLY_AND_CLEAR, mapInputs, customerId)
 
-    fun apply (operation: OutputOperationTypeDto, mapInputs: List<MapInput>, customerId: String): OutputOperationDto<*> {
+    fun apply (operation: OutputOperationTypeDto, mapInputs: List<MapInput>, customerId: String): OutputOperationDto<MapOutput> {
 
         val routerOutputOperations = mapInputs.filter { it.router != null && it.router!!.isNotEmpty() }.map { mapInput ->
             routerConverter.applyAndClear(mapInput.router!!, mapInput.id!!)

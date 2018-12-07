@@ -25,7 +25,7 @@ class RouterConverter {
     fun apply (routerInputs: List<RouterInput>, mapId: String) =
         apply(OutputOperationTypeDto.APPLY, routerInputs, mapId)
 
-    fun apply (operation: OutputOperationTypeDto, routerInputs: List<RouterInput>, mapId: String): OutputOperationDto<*> {
+    fun apply (operation: OutputOperationTypeDto, routerInputs: List<RouterInput>, mapId: String): OutputOperationDto<RouterOutput> {
 
         return OutputOperationDto(
             type = operation,

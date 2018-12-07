@@ -25,7 +25,7 @@ class CustomerConverter {
     fun applyAndClear (customerInputs: List<CustomerInput>) =
         apply(OutputOperationTypeDto.APPLY_AND_CLEAR, customerInputs)
 
-    fun apply (operation: OutputOperationTypeDto, customerInputs: List<CustomerInput>): OutputOperationDto<*> {
+    fun apply (operation: OutputOperationTypeDto, customerInputs: List<CustomerInput>): OutputOperationDto<CustomerOutput> {
 
         val customerOutputData = customerInputs.map { convert(it) }
 
