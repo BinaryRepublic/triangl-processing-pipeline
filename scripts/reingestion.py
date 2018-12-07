@@ -47,7 +47,7 @@ def publish_pubsub_messages(entities, publisher, topic_path):
 
         published_items_count += 1
         print("%s: %s %s" % (published_items_count, entity["kind"], entity["data"]["id"]))
-        time.sleep(0.01)
+        time.sleep(0.002)
 
 def main():
     global router_maps
