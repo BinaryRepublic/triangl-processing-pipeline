@@ -46,7 +46,7 @@ jobs:
     - run:
         name: create dockerfile
         command: |
-          echo 'FROM openjdk:8-jre-slim
+          echo 'FROM openjdk:10-jre-slim
                 WORKDIR /home
                 COPY build/libs .
                 CMD ["java", "-jar", "processing-pipeline.jar"]' > Dockerfile
