@@ -44,15 +44,14 @@ class RepositoryExecutorTest {
                     mockData.customerOutput("c3")
                 )
         )
-        val outputClass = CustomerOutput::class.java
         val table = "Customer"
         given(sqlQueryBuilder.insertOrUpdate(any(), eq(table))).willReturn("insertOrUpdate query")
 
         // when
-        repositoryExecutor.run(operation, table, outputClass)
+        repositoryExecutor.run<CustomerOutput>(operation, table)
 
         // then
-        verify(repositoryConnector, times(3)).modify(eq("insertOrUpdate query"), eq(outputClass))
+        verify(repositoryConnector, times(3)).execute(eq("insertOrUpdate query"))
     }
 
     @Test
@@ -67,18 +66,17 @@ class RepositoryExecutorTest {
                 mockData.mapOutput("m3", "c1")
             )
         )
-        val outputClass = MapOutput::class.java
         val table = "Map"
 
         given(sqlQueryBuilder.insertOrUpdate(any(), eq(table))).willReturn("insertOrUpdate query")
         given(sqlQueryBuilder.deleteNotIn(eq(operation.data), eq(table))).willReturn("deleteNotIn query")
 
         // when
-        repositoryExecutor.run(operation, table, outputClass)
+        repositoryExecutor.run<MapOutput>(operation, table)
 
         // then
-        verify(repositoryConnector, times(3)).modify(eq("insertOrUpdate query"), eq(outputClass))
-        verify(repositoryConnector, times(1)).modify(eq("deleteNotIn query"), eq(outputClass))
+        verify(repositoryConnector, times(3)).execute(eq("insertOrUpdate query"))
+        verify(repositoryConnector, times(1)).execute(eq("deleteNotIn query"))
     }
 
     @Test
@@ -93,14 +91,13 @@ class RepositoryExecutorTest {
                 mockData.routerOutput("r3", "m1")
             )
         )
-        val outputClass = RouterOutput::class.java
         val table = "Router"
         given(sqlQueryBuilder.delete(anyString(), eq(table))).willReturn("delete query")
 
         // when
-        repositoryExecutor.run(operation, table, outputClass)
+        repositoryExecutor.run<RouterOutput>(operation, table)
 
         // then
-        verify(repositoryConnector, times(3)).modify(eq("delete query"), eq(outputClass))
+        verify(repositoryConnector, times(3)).execute(eq("delete query"))
     }
 }

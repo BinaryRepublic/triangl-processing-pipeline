@@ -31,35 +31,29 @@ class RepositoryControllerTest {
 
         // then
         inOrder (repositoryExecutor) {
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CustomerOutput>(
                 eq(outputOperation),
-                eq("Customer"),
-                eq(CustomerOutput::class.java)
+                eq("Customer")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<MapOutput>(
                 eq(outputOperation.children[0]),
-                eq("Map"),
-                eq(MapOutput::class.java)
+                eq("Map")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<RouterOutput>(
                 eq(outputOperation.children[0].children[0]),
-                eq("Router"),
-                eq(RouterOutput::class.java)
+                eq("Router")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CoordinateOutput>(
                 eq(outputOperation.children[0].children[0].children[0]),
-                eq("Coordinate"),
-                eq(CoordinateOutput::class.java)
+                eq("Coordinate")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<AreaOutput>(
                 eq(outputOperation.children[0].children[1]),
-                eq("Area"),
-                eq(AreaOutput::class.java)
+                eq("Area")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CoordinateOutput>(
                 eq(outputOperation.children[0].children[1].children[0]),
-                eq("Coordinate"),
-                eq(CoordinateOutput::class.java)
+                eq("Coordinate")
             )
         }
     }
@@ -75,35 +69,29 @@ class RepositoryControllerTest {
 
         // then
         inOrder (repositoryExecutor) {
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CoordinateOutput>(
                     eq(outputOperation.children[0].children[0].children[0]),
-                    eq("Coordinate"),
-                    eq(CoordinateOutput::class.java)
+                    eq("Coordinate")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<RouterOutput>(
                     eq(outputOperation.children[0].children[0]),
-                    eq("Router"),
-                    eq(RouterOutput::class.java)
+                    eq("Router")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CoordinateOutput>(
                     eq(outputOperation.children[0].children[1].children[0]),
-                    eq("Coordinate"),
-                    eq(CoordinateOutput::class.java)
+                    eq("Coordinate")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<AreaOutput>(
                     eq(outputOperation.children[0].children[1]),
-                    eq("Area"),
-                    eq(AreaOutput::class.java)
+                    eq("Area")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<MapOutput>(
                     eq(outputOperation.children[0]),
-                    eq("Map"),
-                    eq(MapOutput::class.java)
+                    eq("Map")
             )
-            verify(repositoryExecutor, times(1)).run(
+            verify(repositoryExecutor, times(1)).run<CustomerOutput>(
                     eq(outputOperation),
-                    eq("Customer"),
-                    eq(CustomerOutput::class.java)
+                    eq("Customer")
             )
         }
     }

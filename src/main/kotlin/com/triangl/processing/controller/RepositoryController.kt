@@ -46,13 +46,13 @@ class RepositoryController(
 
     private fun runRepositoryOperation (op: OutputOperationDto<*>) {
         when (outputOperation.entity) {
-            OutputOperationEntityDto.CUSTOMER -> repositoryExecutor.run(op, "Customer", CustomerOutput::class.java)
-            OutputOperationEntityDto.MAP -> repositoryExecutor.run(op, "Map", MapOutput::class.java)
-            OutputOperationEntityDto.ROUTER -> repositoryExecutor.run(op, "Router", RouterOutput::class.java)
-            OutputOperationEntityDto.AREA -> repositoryExecutor.run(op, "Area", AreaOutput::class.java)
-            OutputOperationEntityDto.COORDINATE -> repositoryExecutor.run(op, "Coordinate", CoordinateOutput::class.java)
-            OutputOperationEntityDto.TRACKED_DEVICE -> repositoryExecutor.run(op, "TrackedDevice", TrackedDeviceOutput::class.java)
-            OutputOperationEntityDto.TRACKING_POINT -> repositoryExecutor.run(op, "TrackingPoint", TrackingPointOutput::class.java)
+            OutputOperationEntityDto.CUSTOMER -> repositoryExecutor.run<CustomerOutput>(op, "Customer")
+            OutputOperationEntityDto.MAP -> repositoryExecutor.run<MapOutput>(op, "Map")
+            OutputOperationEntityDto.ROUTER -> repositoryExecutor.run<RouterOutput>(op, "Router")
+            OutputOperationEntityDto.AREA -> repositoryExecutor.run<AreaOutput>(op, "Area")
+            OutputOperationEntityDto.COORDINATE -> repositoryExecutor.run<CoordinateOutput>(op, "Coordinate")
+            OutputOperationEntityDto.TRACKED_DEVICE -> repositoryExecutor.run<TrackedDeviceOutput>(op, "TrackedDevice")
+            OutputOperationEntityDto.TRACKING_POINT -> repositoryExecutor.run<TrackingPointOutput>(op, "TrackingPoint")
         }
     }
 }
