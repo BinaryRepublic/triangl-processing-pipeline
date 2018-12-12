@@ -8,7 +8,7 @@ class RepositoryExecutor (
     private var repositoryConnector: RepositoryConnector,
     private var sqlQueryBuilder: SQLQueryBuilder
 ) {
-    fun <T: RepositoryEntity>run (operation: OutputOperationDto<*>, table: String, outputClass: Class<T>) {
+    fun <T: RepositoryEntity>run (operation: OutputOperationDto<*>, table: String) {
 
         operation.data.forEach{item ->
             @Suppress("UNCHECKED_CAST")
@@ -17,27 +17,27 @@ class RepositoryExecutor (
                 operation.type == OutputOperationTypeDto.APPLY ||
                 operation.type == OutputOperationTypeDto.APPLY_AND_CLEAR
             ) {
-                updateOrCreate(castedItem, table, outputClass)
+                updateOrCreate(castedItem, table)
             } else if (operation.type == OutputOperationTypeDto.DELETE) {
-                delete(castedItem, table, outputClass)
+                delete(castedItem, table)
             }
         }
         if (operation.type == OutputOperationTypeDto.APPLY_AND_CLEAR) {
             val query = sqlQueryBuilder.deleteNotIn(operation.data, table)
             System.out.printf("$query\n")
-            repositoryConnector.modify(query, outputClass)
+            repositoryConnector.execute(query)
         }
     }
 
-    private fun <T: RepositoryEntity>updateOrCreate (data: T, table: String, outputClass: Class<T>) {
+    private fun <T: RepositoryEntity>updateOrCreate (data: T, table: String) {
         val query = sqlQueryBuilder.insertOrUpdate(data.toHashMap(), table)
         System.out.printf("$query\n")
-        repositoryConnector.modify(query, outputClass)
+        repositoryConnector.execute(query)
     }
 
-    private fun <T: RepositoryEntity>delete (data: T, table: String, outputClass: Class<T>) {
+    private fun <T: RepositoryEntity>delete (data: T, table: String) {
         val query = sqlQueryBuilder.delete(data.id, table)
         System.out.printf("$query\n")
-        repositoryConnector.modify(query, outputClass)
+        repositoryConnector.execute(query)
     }
 }
