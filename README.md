@@ -30,3 +30,10 @@ do contain all SQL write/delete operations.
 
 3) __ApplyOutputOperationsToDatabase__: Finally we are applying
 all prepared `OutputOperationDto` to the database.
+
+## Detailed communication flow diagram
+
+I created a detailed communication flow diagram with the most important classes
+and their methods and properties:
+
+![detailed communication flow diagram](docs/img/detailed-communication-flow-diagram.svg)
